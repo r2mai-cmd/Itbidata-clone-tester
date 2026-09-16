@@ -101,7 +101,7 @@ letter-spacing: -0.01em;
 .dropdown-conteudo { display: none; position: absolute; right: 0; top: 100%; min-width: 260px; background-color: var(--fundo-escuro-claro); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.45); z-index: 100; padding: 8px 0; margin-top: 0px; border: 1px solid rgba(255,255,255,0.12); }
 .dropdown-conteudo a { color: var(--pergaminho); padding: 10px 16px; text-decoration: none; display: block; font-size: 0.8rem; font-weight: 600; transition: background 0.15s, color 0.15s; }
 .dropdown-conteudo a:hover { background-color: rgba(240, 145, 58, 0.18); color: var(--laranja); }
-.dropdown:hover .dropdown-conteudo, .dropdown-conteudo:hover { display: block; }
+.dropdown:hover .dropdown-conteudo, .dropdown-conteudo:hover, .dropdown.aberto .dropdown-conteudo { display: block; }
 
 /* ===== Cabecalho: foto + titulo expandido 100% ===== */
 .cabecalho {
@@ -633,6 +633,13 @@ white-space: nowrap;
   .educativa-nota { grid-column: auto; }
 }
 
+@media (max-width: 700px) {
+  .barra-marca { padding: 12px 12px; }
+  .menu-nav { gap: 4px; }
+  .btn-nav { padding: 7px 9px; font-size: 0.74rem; }
+  .dropdown-conteudo { min-width: 245px; max-width: calc(100vw - 24px); }
+}
+
 </style>
 </head>
 <body>
@@ -644,7 +651,7 @@ white-space: nowrap;
   <div class="menu-nav">
     <a href="estatisticas.html" class="btn-nav btn-destaque">Estatísticas</a>
     <div class="dropdown">
-      <a href="#" class="btn-nav btn-destaque">Simuladores ▾</a>
+      <button type="button" class="btn-nav btn-destaque btn-simuladores" aria-expanded="false" aria-haspopup="true">Simuladores ▾</button>
       <div class="dropdown-conteudo">
         <a href="simulador-financiamento.html">&#127968; Financiamento (SAC x PRICE)</a>
         <a href="calculadora-itbi.html">&#128221; Custos de ITBI e Registro</a>
@@ -1879,5 +1886,33 @@ white-space: nowrap;
   })();
 })();
 </script>
+
+<script>
+(function () {
+  const dropdown = document.querySelector('.dropdown');
+  const toggle = document.querySelector('.btn-simuladores');
+  if (!dropdown || !toggle) return;
+
+  function fecharDropdown() {
+    dropdown.classList.remove('aberto');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  toggle.addEventListener('click', function (event) {
+    event.preventDefault();
+    const aberto = dropdown.classList.toggle('aberto');
+    toggle.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+  });
+
+  document.addEventListener('click', function (event) {
+    if (!dropdown.contains(event.target)) fecharDropdown();
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') fecharDropdown();
+  });
+})();
+</script>
+
 </body>
 </html>
