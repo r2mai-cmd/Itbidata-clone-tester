@@ -966,8 +966,41 @@ white-space: nowrap;
       return abreviacoes[palavra] || palavra;
     }).join(" ");
 
+    // Títulos e tratamentos que aparecem em algumas bases podem existir
+    // no nome oficial do logradouro, mas ser omitidos pelo usuário na busca.
+    // Removemos esses termos dos dois lados para que, por exemplo,
+    // "Avenida Oscar Pereira" encontre "Avenida PROF Oscar Pereira" e
+    // "Rua Mario Totta" encontre "Rua DR Mario Totta".
+    var titulosOpcionais = {
+      "PROFESSOR": true,
+      "PROFESSORA": true,
+      "PRESIDENTE": true,
+      "DOUTOR": true,
+      "DOUTORA": true,
+      "DEPUTADO": true,
+      "DEPUTADA": true,
+      "CORONEL": true,
+      "GENERAL": true,
+      "ENGENHEIRO": true,
+      "ENGENHEIRA": true,
+      "BRIGADEIRO": true,
+      "SENADOR": true,
+      "SENADORA": true,
+      "MAJOR": true,
+      "CAPITAO": true,
+      "CAPITA": true,
+      "COMENDADOR": true,
+      "DESEMBARGADOR": true,
+      "DESEMBARGADORA": true,
+      "MINISTRO": true,
+      "MINISTRA": true
+    };
+
     return texto
       .replace(/\b(DE|DA|DO|DAS|DOS|E)\b/g, " ")
+      .split(/\s+/)
+      .filter(function (palavra) { return palavra && !titulosOpcionais[palavra]; })
+      .join(" ")
       .replace(/\s+/g, " ")
       .trim();
   }
@@ -1321,8 +1354,30 @@ white-space: nowrap;
   }
 
   function coincide(registro, logradouroBusca, numeroBusca) {
-    var logradouroOk = !logradouroBusca ||
-      (registro.logradouro && normalizarLogradouro(registro.logradouro).indexOf(logradouroBusca) !== -1);
+    var logradouroOk = true;
+    if (logradouroBusca) {
+      var logradouroRegistro = registro.logradouro ? normalizarLogradouro(registro.logradouro) : "";
+      if (!logradouroRegistro) {
+        logradouroOk = false;
+      } else if (logradouroRegistro.indexOf(logradouroBusca) !== -1) {
+        logradouroOk = true;
+      } else {
+        // Permite palavras extras no cadastro, como:
+        // busca "AVENIDA OSCAR PEREIRA" -> cadastro "AVENIDA PROF OSCAR PEREIRA".
+        // Mantemos a ordem das palavras para evitar correspondências excessivamente amplas.
+        var palavrasBusca = logradouroBusca.split(" ").filter(function (p) { return p.length > 0; });
+        var palavrasRegistro = logradouroRegistro.split(" ").filter(function (p) { return p.length > 0; });
+        var j = 0;
+        for (var i = 0; i < palavrasBusca.length; i++) {
+          while (j < palavrasRegistro.length && palavrasRegistro[j] !== palavrasBusca[i]) j++;
+          if (j >= palavrasRegistro.length) {
+            logradouroOk = false;
+            break;
+          }
+          j++;
+        }
+      }
+    }
     var numeroOk = !numeroBusca ||
       (registro.numeroEndereco && registro.numeroEndereco.trim() === numeroBusca);
     return logradouroOk && numeroOk;
