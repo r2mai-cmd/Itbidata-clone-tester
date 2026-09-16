@@ -577,6 +577,62 @@ white-space: nowrap;
   color: #6B6A63 !important;
   margin: 0 !important;
 }
+
+/* ===== Conteúdo editorial / educativo ===== */
+.secao-educativa {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 10px 32px 34px;
+}
+.secao-educativa-cabecalho {
+  border-left: 4px solid var(--laranja);
+  padding-left: 14px;
+  margin-bottom: 22px;
+}
+.secao-educativa-cabecalho h2 {
+  margin: 0 0 4px;
+  color: var(--texto-sobre-fundo);
+  font-size: 1.15rem;
+  line-height: 1.3;
+}
+.secao-educativa-cabecalho p {
+  margin: 0;
+  color: var(--texto-sobre-fundo-sutil);
+  font-size: 0.82rem;
+}
+.educativa-grade {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.educativa-bloco {
+  background: var(--fundo-escuro-claro);
+  border: 1px solid rgba(245, 243, 237, 0.10);
+  border-radius: 12px;
+  padding: 20px;
+}
+.educativa-bloco h3 {
+  margin: 0 0 8px;
+  color: var(--texto-sobre-fundo);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.educativa-bloco p {
+  margin: 0;
+  color: var(--texto-sobre-fundo-sutil);
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+.educativa-nota {
+  grid-column: 1 / -1;
+  border-left: 4px solid var(--agua-turquesa);
+}
+@media (max-width: 700px) {
+  .secao-educativa { padding: 8px 16px 28px; }
+  .educativa-grade { grid-template-columns: 1fr; }
+  .educativa-nota { grid-column: auto; }
+}
+
 </style>
 </head>
 <body>
@@ -712,6 +768,65 @@ white-space: nowrap;
         <div id="detalhe" hidden></div>
       </main>
     </div>
+
+
+    <section class="secao-educativa" aria-labelledby="titulo-guia">
+      <div class="secao-educativa-cabecalho">
+        <h2 id="titulo-guia">Entenda os dados de transações imobiliárias</h2>
+        <p>Um guia rápido para interpretar as informações apresentadas pelo itbidata.</p>
+      </div>
+
+      <div class="educativa-grade">
+        <article class="educativa-bloco">
+          <h3>O que é o ITBI?</h3>
+          <p>
+            ITBI é o Imposto sobre a Transmissão de Bens Imóveis, relacionado a
+            transmissões onerosas de imóveis entre vivos. As bases utilizadas pelo
+            itbidata são informações públicas disponibilizadas pelos municípios.
+          </p>
+        </article>
+
+        <article class="educativa-bloco">
+          <h3>O que significa o valor de uma transação?</h3>
+          <p>
+            O valor exibido corresponde a uma informação presente na base pública
+            utilizada para aquela cidade e período. Ele não é uma avaliação feita
+            pelo itbidata e não representa, por si só, o preço atual de mercado
+            de um imóvel.
+          </p>
+        </article>
+
+        <article class="educativa-bloco">
+          <h3>Como interpretar o R$/m²?</h3>
+          <p>
+            O valor por metro quadrado é uma medida de comparação entre registros
+            quando existem dados compatíveis de valor e área. Imóveis de uma mesma
+            rua ou bairro podem ter R$/m² diferentes por causa de área, localização,
+            características, conservação, data e condições da negociação.
+          </p>
+        </article>
+
+        <article class="educativa-bloco">
+          <h3>Por que os resultados podem variar?</h3>
+          <p>
+            Cada prefeitura possui sua própria base, estrutura, cobertura e critérios
+            de publicação. Além disso, os imóveis presentes em uma amostra não são
+            necessariamente iguais. Por isso, médias e comparações devem ser
+            interpretadas dentro do contexto do período e da cidade pesquisados.
+          </p>
+        </article>
+
+        <article class="educativa-bloco educativa-nota">
+          <h3>Use os dados como referência</h3>
+          <p>
+            O itbidata organiza dados públicos para facilitar pesquisa e comparação.
+            Para decisões de compra, venda, financiamento, investimento ou questões
+            jurídicas, confira a informação diretamente na fonte oficial do município
+            e, quando necessário, utilize documentos ou certidões oficiais.
+          </p>
+        </article>
+      </div>
+    </section>
 
     <!-- Rodapé atualizado com disclaimer genérico multiciadades, termos e contato -->
     <footer class="rodape">
