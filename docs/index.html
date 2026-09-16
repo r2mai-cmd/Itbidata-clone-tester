@@ -911,7 +911,62 @@ white-space: nowrap;
     return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim();
   }
   function normalizarLogradouro(s) {
-    return normalizarParaBusca(s)
+    var texto = normalizarParaBusca(s)
+      .replace(/[.,;:/\\-]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    // Padroniza abreviações comuns de logradouros e títulos.
+    // Assim, por exemplo, "Av.", "Av" e "Avenida" passam a ser comparados
+    // como "AVENIDA"; o mesmo vale para "Prof.", "Professor", etc.
+    var abreviacoes = {
+      "AV": "AVENIDA",
+      "AVENIDA": "AVENIDA",
+      "R": "RUA",
+      "RUA": "RUA",
+      "AL": "ALAMEDA",
+      "ALAMEDA": "ALAMEDA",
+      "PCA": "PRACA",
+      "PC": "PRACA",
+      "PRACA": "PRACA",
+      "PR": "PRACA",
+      "TRV": "TRAVESSA",
+      "TV": "TRAVESSA",
+      "TRAV": "TRAVESSA",
+      "TRAVESSA": "TRAVESSA",
+      "ROD": "RODOVIA",
+      "RODOVIA": "RODOVIA",
+      "EST": "ESTRADA",
+      "ESTRADA": "ESTRADA",
+      "PROF": "PROFESSOR",
+      "PROFESSOR": "PROFESSOR",
+      "PROFA": "PROFESSORA",
+      "PROFESSORA": "PROFESSORA",
+      "PRES": "PRESIDENTE",
+      "PRESIDENTE": "PRESIDENTE",
+      "DR": "DOUTOR",
+      "DOUTOR": "DOUTOR",
+      "DRA": "DOUTORA",
+      "DOUTORA": "DOUTORA",
+      "DEP": "DEPUTADO",
+      "DEPUTADO": "DEPUTADO",
+      "DEPA": "DEPUTADA",
+      "DEPUTADA": "DEPUTADA",
+      "CEL": "CORONEL",
+      "CORONEL": "CORONEL",
+      "GEN": "GENERAL",
+      "GENERAL": "GENERAL",
+      "ENG": "ENGENHEIRO",
+      "ENGENHEIRO": "ENGENHEIRO",
+      "BRIG": "BRIGADEIRO",
+      "BRIGADEIRO": "BRIGADEIRO"
+    };
+
+    texto = texto.split(" ").map(function (palavra) {
+      return abreviacoes[palavra] || palavra;
+    }).join(" ");
+
+    return texto
       .replace(/\b(DE|DA|DO|DAS|DOS|E)\b/g, " ")
       .replace(/\s+/g, " ")
       .trim();
