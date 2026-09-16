@@ -577,6 +577,48 @@ white-space: nowrap;
   color: #6B6A63 !important;
   margin: 0 !important;
 }
+
+  /* ===== Conteudo editorial / informativo ===== */
+  .conteudo-informativo {
+    width: 100%;
+    margin-top: 28px;
+    padding: 30px 32px;
+    background: var(--pergaminho);
+    color: var(--texto-card);
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.20);
+  }
+  .conteudo-informativo h2 {
+    margin: 0 0 12px;
+    font-size: 1.45rem;
+    line-height: 1.3;
+    font-weight: 800;
+    color: var(--texto-card);
+  }
+  .conteudo-informativo h3 {
+    margin: 26px 0 8px;
+    font-size: 1.05rem;
+    line-height: 1.35;
+    font-weight: 800;
+    color: var(--texto-card);
+  }
+  .conteudo-informativo p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--texto-card-sutil);
+  }
+  .conteudo-informativo p + p { margin-top: 12px; }
+  .conteudo-informativo strong { color: var(--texto-card); }
+  @media (max-width: 700px) {
+    .conteudo-informativo {
+      margin-top: 20px;
+      padding: 24px 20px;
+    }
+    .conteudo-informativo h2 { font-size: 1.25rem; }
+    .conteudo-informativo p { font-size: 0.88rem; }
+  }
+
 </style>
 </head>
 <body>
@@ -712,6 +754,27 @@ white-space: nowrap;
         <div id="detalhe" hidden></div>
       </main>
     </div>
+
+
+        <section class="conteudo-informativo" aria-labelledby="titulo-conteudo-informativo">
+          <h2 id="titulo-conteudo-informativo">Consulte dados reais de transações imobiliárias</h2>
+          <p>O <strong>itbidata</strong> organiza dados públicos de transações imobiliárias disponibilizados por prefeituras brasileiras para facilitar a consulta e a comparação de informações sobre imóveis.</p>
+          <p>Por meio da busca, é possível pesquisar registros por cidade, endereço, número e ano, quando essas informações estão disponíveis na base municipal. Os resultados podem apresentar valores registrados, datas, área e outras características presentes nos dados de origem.</p>
+
+          <h3>O que é o ITBI?</h3>
+          <p>O ITBI — Imposto sobre a Transmissão de Bens Imóveis — está relacionado às transmissões de imóveis entre vivos. As informações utilizadas pelo itbidata são provenientes de bases públicas disponibilizadas pelos municípios atendidos pelo site.</p>
+          <p>Por isso, os dados apresentados representam <strong>registros existentes nas bases públicas consultadas</strong>, e não uma avaliação feita pelo itbidata.</p>
+
+          <h3>Como interpretar os valores</h3>
+          <p>Um valor registrado em uma transação não deve ser interpretado automaticamente como o preço atual de mercado de um imóvel.</p>
+          <p>Diferenças de localização, conservação, área, características da unidade, data da negociação e condições específicas da operação podem influenciar os valores observados. O preço por metro quadrado também pode variar bastante entre imóveis de uma mesma região.</p>
+          <p>Quando disponível, a área pode ser utilizada para calcular um valor aproximado por metro quadrado, servindo como referência para comparação entre registros.</p>
+
+          <h3>De onde vêm os dados?</h3>
+          <p>O itbidata utiliza dados publicados nos portais oficiais de dados abertos e transparência dos municípios disponibilizados na plataforma.</p>
+          <p>As bases podem possuir formatos, campos, períodos de cobertura e critérios de atualização diferentes entre as cidades. O site organiza essas informações para facilitar a consulta, mas <strong>não substitui a fonte oficial nem documentos ou certidões emitidos pelo município</strong>.</p>
+          <p>Antes de tomar uma decisão de compra, venda, financiamento ou investimento, recomendamos conferir as informações diretamente na fonte oficial e considerar as características específicas do imóvel.</p>
+        </section>
 
     <!-- Rodapé atualizado com disclaimer genérico multiciadades, termos e contato -->
     <footer class="rodape">
