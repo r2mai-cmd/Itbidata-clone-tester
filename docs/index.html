@@ -1,23 +1,24 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>itbidata &mdash; Inteligência de Mercado Imobiliário</title>
-<link rel="icon" type="image/png" href="./favicon.png">
-<link rel="apple-touch-icon" href="./favicon.png">
-<link rel="apple-touch-icon" href="favicon.png">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>itbidata — Dados de ITBI e transações imobiliárias</title>
+<link href="./favicon.png" rel="icon" type="image/png"/>
+<link href="./favicon.png" rel="apple-touch-icon"/>
+<link href="favicon.png" rel="apple-touch-icon"/>
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HTD7CLQPZ2"></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-HTD7CLQPZ2"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-HTD7CLQPZ2');
 </script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4809506430686227" crossorigin="anonymous"></script>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4809506430686227"></script>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <style>
   :root {
     --fundo-escuro: #34383D;
@@ -641,232 +642,211 @@ white-space: nowrap;
 }
 
 </style>
-</head>
+<meta content="Consulte dados públicos de transações imobiliárias e ITBI por cidade, endereço e ano. O itbidata organiza informações de Porto Alegre, São Paulo, Belo Horizonte, Fortaleza e Recife." name="description"/><link href="https://itbidata.com.br/index.html" rel="canonical"/><meta content="index, follow" name="robots"/><meta content="itbidata — Dados de ITBI e transações imobiliárias" property="og:title"/><meta content="Consulte dados públicos de transações imobiliárias e ITBI por cidade, endereço e ano. O itbidata organiza informações de Porto Alegre, São Paulo, Belo Horizonte, Fortaleza e Recife." property="og:description"/><meta content="website" property="og:type"/><meta content="https://itbidata.com.br/index.html" property="og:url"/></head>
 <body>
 <div class="barra-marca">
-  <a href="index.html" class="link-marca">
-    <img src="./favicon.png" alt="itbidata" />
-    <span class="nome-marca">itbi<span>data</span></span>
-  </a>
-  <div class="menu-nav">
-    <a href="estatisticas.html" class="btn-nav btn-destaque">Estatísticas</a>
-    <div class="dropdown">
-      <button type="button" class="btn-nav btn-destaque btn-simuladores" aria-expanded="false" aria-haspopup="true">Simuladores ▾</button>
-      <div class="dropdown-conteudo">
-        <a href="simulador-financiamento.html">&#127968; Financiamento (SAC x PRICE)</a>
-        <a href="calculadora-itbi.html">&#128221; Custos de ITBI e Registro</a>
-        <a href="poder-de-compra.html">&#128179; Poder de Compra & Renda</a>
-        <a href="comprar-ou-alugar.html">&#9878; Comprar ou Alugar?</a>
-        <a href="calculadora-m2.html">&#128207; Preço do Metro Quadrado (m²)</a>
-        <a href="consorcio-vs-financiamento.html">&#128188; Consórcio vs. Financiamento</a>
-      </div>
-    </div>
-  </div>
+<a class="link-marca" href="index.html">
+<img alt="itbidata" src="./favicon.png"/>
+<span class="nome-marca">itbi<span>data</span></span>
+</a>
+<div class="menu-nav">
+<a class="btn-nav btn-destaque" href="estatisticas.html">Estatísticas</a>
+<div class="dropdown">
+<button aria-expanded="false" aria-haspopup="true" class="btn-nav btn-destaque btn-simuladores" type="button">Simuladores ▾</button>
+<div class="dropdown-conteudo">
+<a href="simulador-financiamento.html">🏠 Financiamento (SAC x PRICE)</a>
+<a href="calculadora-itbi.html">📝 Custos de ITBI e Registro</a>
+<a href="poder-de-compra.html">💳 Poder de Compra &amp; Renda</a>
+<a href="comprar-ou-alugar.html">⚖ Comprar ou Alugar?</a>
+<a href="calculadora-m2.html">📏 Preço do Metro Quadrado (m²)</a>
+<a href="consorcio-vs-financiamento.html">💼 Consórcio vs. Financiamento</a>
 </div>
-
-  <header class="cabecalho" id="cabecalho">
-    <img src="./banner.jpg" alt="Mercado Imobiliário" />
-    <div class="cabecalho-veu"></div>
-    <div class="cabecalho-texto">
-      <h1 class="cabecalho-titulo">Sua fonte de inteligência para preços de imóveis</h1>
-      <p class="cabecalho-subtitulo">Consulte o histórico de transações reais de ITBI, direto dos dados abertos das prefeituras.</p>
-    </div>
-  </header>
-
-  <div class="pagina">
-    <div class="corpo">
-      <aside class="barra-lateral">
-        <section class="cartao">
-          <div class="campo">
-            <label for="cidade">Cidade</label>
-            <select id="cidade">
-              <option value="poa">Porto Alegre - RS</option>
-              <option value="fortaleza">Fortaleza - CE</option>
-              <option value="sao-paulo">São Paulo - SP</option>
-              <option value="belo-horizonte">Belo Horizonte - MG</option>
-              <option value="recife">Recife - PE</option>
-            </select>
-          </div>
-
-          <div class="campo">
-            <label for="endereco">Endereço (rua ou avenida)</label>
-            <input type="text" id="endereco" placeholder="Ex: Nome da rua ou avenida">
-          </div>
-
-          <div class="campo-linha">
-            <div class="campo">
-              <label for="numero">Número</label>
-              <input type="text" id="numero" placeholder="opcional" inputmode="numeric">
-            </div>
-            <div class="campo">
-              <label for="ano">Ano</label>
-              <select id="ano">
-                <option value="">Todos</option>
-                <option value="2026" selected>2026</option>
-                <option value="2025">2025</option>
-                <option value="2024">2024</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-              </select>
-            </div>
-          </div>
-
-          <button type="button" class="botao botao-primario" id="btn-pesquisar">&#128269; Pesquisar</button>
-          <div class="acoes-secundarias">
-            <button type="button" class="botao-texto" id="btn-limpar">&#10005; Limpar</button>
-            <button type="button" class="botao-texto" id="btn-atualizar">&#8635; Atualizar dados</button>
-          </div>
-
-          <div class="barra-progresso" id="barra-progresso"><div class="barra-progresso-preenchimento"></div></div>
-          <p class="texto-progresso" id="texto-progresso" style="display:none;"></p>
-
-          <div class="faixa-aviso" id="faixa-erro">
-            <div class="risco"></div>
-            <p id="texto-erro"></p>
-          </div>
-          <div class="faixa-aviso aviso-suave" id="faixa-aviso-anos">
-            <div class="risco"></div>
-            <p id="texto-aviso-anos"></p>
-          </div>
-        </section>
-      </aside>
-
-      <main class="area-principal">
-        <div class="barra-topo-resultados" id="barra-topo-resultados" style="display:none;">
-          <p class="contagem" id="contagem"></p>
-          <div class="controles-topo-direita">
-            <div class="tamanho-pagina-grupo">
-              <label for="select-tamanho-pagina">Por página:</label>
-              <select id="select-tamanho-pagina">
-                <option value="5">5</option>
-                <option value="10" selected>10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select>
-            </div>
-            <div class="ordenacao-grupo">
-              <label for="select-ordenacao">Ordenar:</label>
-              <select id="select-ordenacao">
-                <option value="recente" selected>Mais recentes</option>
-                <option value="antigo">Mais antigos</option>
-                <option value="maior-valor">Maior valor</option>
-                <option value="menor-valor">Menor valor</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="grade-resultados" id="resultados"></div>
-
-        <div class="controles-paginacao" id="controles-paginacao" style="display:none;">
-          <div class="paginacao-info" id="paginacao-info">Mostrando 0 a 0 de 0 registros</div>
-          <div class="paginacao-botoes">
-            <button class="btn-pagina" id="btn-primeira">&laquo; Primeira</button>
-            <button class="btn-pagina" id="btn-anterior">&lsaquo; Anterior</button>
-            <span id="paginacao-numeros" style="font-size:0.8rem; font-weight:700; margin:0 6px; color:#fff;">Pág. 1 de 1</span>
-            <button class="btn-pagina" id="btn-proxima">Próxima &rsaquo;</button>
-            <button class="btn-pagina" id="btn-ultima">&raquo; Última</button>
-          </div>
-        </div>
-
-        <div id="detalhe" hidden></div>
-      </main>
-    </div>
-
-
-    <section class="secao-educativa" aria-labelledby="titulo-guia">
-      <div class="secao-educativa-cabecalho">
-        <h2 id="titulo-guia">Entenda os dados de transações imobiliárias</h2>
-        <p>Um guia rápido para interpretar as informações apresentadas pelo itbidata.</p>
-      </div>
-
-      <div class="educativa-grade">
-        <article class="educativa-bloco">
-          <h3>O que é o ITBI?</h3>
-          <p>
+</div>
+</div>
+</div>
+<header class="cabecalho" id="cabecalho">
+<img alt="Mercado Imobiliário" src="./banner.jpg"/>
+<div class="cabecalho-veu"></div>
+<div class="cabecalho-texto">
+<h1 class="cabecalho-titulo">Sua fonte de inteligência para preços de imóveis</h1>
+<p class="cabecalho-subtitulo">Consulte o histórico de transações reais de ITBI, direto dos dados abertos das prefeituras.</p>
+</div>
+</header>
+<div class="pagina">
+<div class="corpo">
+<aside class="barra-lateral">
+<section class="cartao">
+<div class="campo">
+<label for="cidade">Cidade</label>
+<select id="cidade">
+<option value="poa">Porto Alegre - RS</option>
+<option value="fortaleza">Fortaleza - CE</option>
+<option value="sao-paulo">São Paulo - SP</option>
+<option value="belo-horizonte">Belo Horizonte - MG</option>
+<option value="recife">Recife - PE</option>
+</select>
+</div>
+<div class="campo">
+<label for="endereco">Endereço (rua ou avenida)</label>
+<input id="endereco" placeholder="Ex: Nome da rua ou avenida" type="text"/>
+</div>
+<div class="campo-linha">
+<div class="campo">
+<label for="numero">Número</label>
+<input id="numero" inputmode="numeric" placeholder="opcional" type="text"/>
+</div>
+<div class="campo">
+<label for="ano">Ano</label>
+<select id="ano">
+<option value="">Todos</option>
+<option selected="" value="2026">2026</option>
+<option value="2025">2025</option>
+<option value="2024">2024</option>
+<option value="2023">2023</option>
+<option value="2022">2022</option>
+<option value="2021">2021</option>
+<option value="2020">2020</option>
+</select>
+</div>
+</div>
+<button class="botao botao-primario" id="btn-pesquisar" type="button">🔍 Pesquisar</button>
+<div class="acoes-secundarias">
+<button class="botao-texto" id="btn-limpar" type="button">✕ Limpar</button>
+<button class="botao-texto" id="btn-atualizar" type="button">↻ Atualizar dados</button>
+</div>
+<div class="barra-progresso" id="barra-progresso"><div class="barra-progresso-preenchimento"></div></div>
+<p class="texto-progresso" id="texto-progresso" style="display:none;"></p>
+<div class="faixa-aviso" id="faixa-erro">
+<div class="risco"></div>
+<p id="texto-erro"></p>
+</div>
+<div class="faixa-aviso aviso-suave" id="faixa-aviso-anos">
+<div class="risco"></div>
+<p id="texto-aviso-anos"></p>
+</div>
+</section>
+</aside>
+<main class="area-principal">
+<div class="barra-topo-resultados" id="barra-topo-resultados" style="display:none;">
+<p class="contagem" id="contagem"></p>
+<div class="controles-topo-direita">
+<div class="tamanho-pagina-grupo">
+<label for="select-tamanho-pagina">Por página:</label>
+<select id="select-tamanho-pagina">
+<option value="5">5</option>
+<option selected="" value="10">10</option>
+<option value="20">20</option>
+<option value="50">50</option>
+<option value="100">100</option>
+</select>
+</div>
+<div class="ordenacao-grupo">
+<label for="select-ordenacao">Ordenar:</label>
+<select id="select-ordenacao">
+<option selected="" value="recente">Mais recentes</option>
+<option value="antigo">Mais antigos</option>
+<option value="maior-valor">Maior valor</option>
+<option value="menor-valor">Menor valor</option>
+</select>
+</div>
+</div>
+</div>
+<div class="grade-resultados" id="resultados"></div>
+<div class="controles-paginacao" id="controles-paginacao" style="display:none;">
+<div class="paginacao-info" id="paginacao-info">Mostrando 0 a 0 de 0 registros</div>
+<div class="paginacao-botoes">
+<button class="btn-pagina" id="btn-primeira">« Primeira</button>
+<button class="btn-pagina" id="btn-anterior">‹ Anterior</button>
+<span id="paginacao-numeros" style="font-size:0.8rem; font-weight:700; margin:0 6px; color:#fff;">Pág. 1 de 1</span>
+<button class="btn-pagina" id="btn-proxima">Próxima ›</button>
+<button class="btn-pagina" id="btn-ultima">» Última</button>
+</div>
+</div>
+<div hidden="" id="detalhe"></div>
+</main>
+</div>
+<section aria-labelledby="titulo-guia" class="secao-educativa">
+<div class="secao-educativa-cabecalho">
+<h2 id="titulo-guia">Entenda os dados de transações imobiliárias</h2>
+<p>Um guia rápido para interpretar as informações apresentadas pelo itbidata.</p>
+</div>
+<div class="educativa-grade">
+<article class="educativa-bloco">
+<h3>O que é o ITBI?</h3>
+<p>
             ITBI é o Imposto sobre a Transmissão de Bens Imóveis, relacionado a
             transmissões onerosas de imóveis entre vivos. As bases utilizadas pelo
             itbidata são informações públicas disponibilizadas pelos municípios.
           </p>
-        </article>
-
-        <article class="educativa-bloco">
-          <h3>O que significa o valor de uma transação?</h3>
-          <p>
+</article>
+<article class="educativa-bloco">
+<h3>O que significa o valor de uma transação?</h3>
+<p>
             O valor exibido corresponde a uma informação presente na base pública
             utilizada para aquela cidade e período. Ele não é uma avaliação feita
             pelo itbidata e não representa, por si só, o preço atual de mercado
             de um imóvel.
           </p>
-        </article>
-
-        <article class="educativa-bloco">
-          <h3>Como interpretar o R$/m²?</h3>
-          <p>
+</article>
+<article class="educativa-bloco">
+<h3>Como interpretar o R$/m²?</h3>
+<p>
             O valor por metro quadrado é uma medida de comparação entre registros
             quando existem dados compatíveis de valor e área. Imóveis de uma mesma
             rua ou bairro podem ter R$/m² diferentes por causa de área, localização,
             características, conservação, data e condições da negociação.
           </p>
-        </article>
-
-        <article class="educativa-bloco">
-          <h3>Por que os resultados podem variar?</h3>
-          <p>
+</article>
+<article class="educativa-bloco">
+<h3>Por que os resultados podem variar?</h3>
+<p>
             Cada prefeitura possui sua própria base, estrutura, cobertura e critérios
             de publicação. Além disso, os imóveis presentes em uma amostra não são
             necessariamente iguais. Por isso, médias e comparações devem ser
             interpretadas dentro do contexto do período e da cidade pesquisados.
           </p>
-        </article>
-
-        <article class="educativa-bloco educativa-nota">
-          <h3>Use os dados como referência</h3>
-          <p>
+</article>
+<article class="educativa-bloco educativa-nota">
+<h3>Use os dados como referência</h3>
+<p>
             O itbidata organiza dados públicos para facilitar pesquisa e comparação.
             Para decisões de compra, venda, financiamento, investimento ou questões
             jurídicas, confira a informação diretamente na fonte oficial do município
             e, quando necessário, utilize documentos ou certidões oficiais.
           </p>
-        </article>
-      </div>
-    </section>
-
-    <!-- Rodapé atualizado com disclaimer genérico multiciadades, termos e contato -->
-    <footer class="rodape">
-      <p>
-        Dados: Portais de Dados Abertos Municipais &mdash; portais oficiais de transparência das prefeituras atendidas,
+</article>
+</div>
+</section>
+<!-- Rodapé atualizado com disclaimer genérico multiciadades, termos e contato -->
+<footer class="rodape">
+<p>
+        Dados: Portais de Dados Abertos Municipais — portais oficiais de transparência das prefeituras atendidas,
         sob licença aberta Creative Commons (CC-BY).
       </p>
-      <p>
+<p>
         O itbidata é um projeto independente, sem vínculo com nenhuma prefeitura ou órgão público.
         As informações têm caráter informativo, incluindo os valores de correção monetária
         (calculados automaticamente a partir de índices públicos). Não substituem certidões
-        oficiais nem assessoria jurídica ou financeira &mdash; confira sempre a fonte original
+        oficiais nem assessoria jurídica ou financeira — confira sempre a fonte original
         antes de qualquer decisão.
       </p>
-      <div class="links-rodape">
-        <a href="metodologia.html">Metodologia e Fontes</a>
-        <span>&bull;</span>
-        <a href="privacidade.html">Política de Privacidade</a>
-        <span>&bull;</span>
-        <a href="termos.html">Termos de Uso &amp; Contato (itbidata9@gmail.com)</a>
-      </div>
-    </footer>
-  </div>
-
-  <div id="cookie-banner" class="banner-cookies">
-    <p>
+<div class="links-rodape">
+<a href="metodologia.html">Metodologia e Fontes</a>
+<span>•</span>
+<a href="privacidade.html">Política de Privacidade</a>
+<span>•</span>
+<a href="termos.html">Termos de Uso &amp; Contato (itbidata9@gmail.com)</a>
+</div>
+</footer>
+</div>
+<div class="banner-cookies" id="cookie-banner">
+<p>
       Utilizamos cookies e tecnologias semelhantes para analisar o tráfego do site e melhorar sua experiência.
       Ao continuar navegando, você concorda com a nossa
       <a href="privacidade.html">Política de Privacidade</a>.
     </p>
-    <button id="btn-aceitar-cookies" type="button">Concordar e fechar</button>
-  </div>
-
+<button id="btn-aceitar-cookies" type="button">Concordar e fechar</button>
+</div>
 <script>
 (function () {
   "use strict";
@@ -1886,7 +1866,6 @@ white-space: nowrap;
   })();
 })();
 </script>
-
 <script>
 (function () {
   const dropdown = document.querySelector('.dropdown');
@@ -1913,6 +1892,5 @@ white-space: nowrap;
   });
 })();
 </script>
-
 </body>
 </html>
