@@ -32,6 +32,8 @@
     .links-rodape { display: flex; gap: 16px; margin-top: 4px; align-items: center; }
     .links-rodape a { color: #4FBFB8; text-decoration: none; font-weight: 600; font-size: 0.75rem; }
     .links-rodape a:hover { text-decoration: underline; }
+    .ultima-atualizacao { margin: -12px 0 20px; text-align: center; font-size: 0.82rem; color: rgba(245, 243, 237, 0.78); }
+    .ultima-atualizacao strong { color: #EDE9DE; }
 
     .banner-privacidade { position: fixed; bottom: 0; left: 0; right: 0; background: #41464A; color: #EDE9DE; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; z-index: 1000; box-shadow: 0 -4px 16px rgba(0,0,0,0.4); border-top: 2px solid #F0913A; font-size: 0.82rem; }
     .banner-privacidade p { margin: 0; line-height: 1.4; text-align: left; }
@@ -39,6 +41,16 @@
     .banner-privacidade button { background: linear-gradient(180deg, #F0913A 0%, #D9762A 100%); color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: inherit; }
     .banner-privacidade button:hover { filter: brightness(1.06); }
     @media (max-width: 600px) { .banner-privacidade { flex-direction: column; align-items: flex-start; } }
+  
+    .explicacao-estatisticas { margin: 22px 0; }
+    .texto-estatisticas { background: #EDE9DE; color: #17202A; border-radius: 14px; padding: 24px; box-shadow: 0 8px 20px rgba(0,0,0,.12); }
+    .texto-estatisticas h2 { margin: 0 0 10px; font-size: 1.25rem; color: #17202A; }
+    .texto-estatisticas p { margin: 0; line-height: 1.65; max-width: 90ch; }
+    .grade-explicacao { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+    .grade-explicacao > div { background: rgba(255,255,255,.55); border: 1px solid rgba(23,32,42,.12); border-radius: 10px; padding: 14px; }
+    .grade-explicacao strong { display: block; margin-bottom: 6px; }
+    .grade-explicacao span { display: block; line-height: 1.5; font-size: .9rem; }
+    @media (max-width: 760px) { .grade-explicacao { grid-template-columns: 1fr; } .texto-estatisticas { padding: 18px; } }
   </style>
 </head>
 <body class="fundo-escuro">
@@ -110,14 +122,14 @@
         letter-spacing: -0.5px;
         margin: 0 0 8px 0;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-      ">NEGÓCIOS BASEADOS EM FATOS, NÃO EM OPINIÕES</h1>
+      ">ESTATÍSTICAS DE TRANSAÇÕES IMOBILIÁRIAS</h1>
       <p style="
         color: #e5e7eb;
         font-size: 1.05rem;
         font-weight: 400;
         margin: 0;
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-      ">Dados reais de transações imobiliárias para embasar decisões seguras e lucrativas.</p>
+      ">Indicadores calculados a partir dos dados públicos de ITBI disponibilizados pelos municípios.</p>
     </div>
   </header>
 
@@ -165,11 +177,21 @@
       </div>
    </section>
 
-    <!-- ESPAÇO AD 1: Topo Estratégico -->
-    <div class="anuncio-container">
-      <span class="anuncio-rotulo">PUBLICIDADE</span>
-      <div class="anuncio-placeholder">Espaço reservado para Anúncio (Responsivo)</div>
+    <div class="ultima-atualizacao" id="ultima-atualizacao" aria-live="polite">
+      Última atualização da fonte: carregando...
     </div>
+
+    <section class="explicacao-estatisticas">
+      <div class="texto-estatisticas">
+        <h2>Como interpretar os indicadores</h2>
+        <p>Use os filtros de cidade, bairro, ano e mês para explorar os registros disponíveis. Os indicadores desta página são agregações dos dados públicos utilizados pelo itbidata e podem variar conforme a cobertura e os períodos publicados por cada município.</p>
+        <div class="grade-explicacao">
+          <div><strong>Valor médio do m²</strong><span>Calculado pela soma dos valores das transações dividida pela soma das áreas compatíveis no conjunto filtrado.</span></div>
+          <div><strong>Ticket médio</strong><span>Corresponde à soma dos valores registrados dividida pela quantidade de transações consideradas.</span></div>
+          <div><strong>Quantidade de transações</strong><span>Mostra o número de registros considerados no filtro atual. A quantidade pode mudar conforme a disponibilidade e a metodologia da base municipal.</span></div>
+        </div>
+      </div>
+    </section>
 
     <!-- Cards de Métricas -->
     <section class="grid-kpis">

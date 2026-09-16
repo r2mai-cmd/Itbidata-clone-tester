@@ -98,7 +98,7 @@
 
   function desenharHistorico() {
     destruir("graficoHistorico");
-    var linhas=linhasFiltradas(false), mapa={}; linhas.forEach(function(x){(mapa[x.ano]||(mapa[x.ano]=[])).push(x);});
+    var linhas=dadosAtuais.historico_mensal.filter(function(x){return elBairro.value==="todos"||x.bairro===elBairro.value;}), mapa={}; linhas.forEach(function(x){(mapa[x.ano]||(mapa[x.ano]=[])).push(x);});
     var anos=Object.keys(mapa).sort(function(a,b){return a-b;}), vals=anos.map(function(y){return somar(mapa[y]).m2_medio||null;});
     var ctx=document.getElementById("graficoHistorico").getContext("2d"); graficosInstanciados.graficoHistorico=new Chart(ctx,{type:"line",data:{labels:anos,datasets:[{label:"R$/m²",data:vals,borderColor:"#4FBFB8",backgroundColor:"rgba(79,191,184,.10)",tension:.2,spanGaps:true,fill:true}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true}},scales:{y:{beginAtZero:false,ticks:{callback:function(v){return "R$ "+Number(v).toLocaleString("pt-BR");}}}}}});
   }
