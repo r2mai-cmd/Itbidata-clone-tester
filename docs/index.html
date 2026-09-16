@@ -865,6 +865,10 @@ white-space: nowrap;
   "use strict";
 
   var cacheCsv = {};
+  var cacheCsvEm = {};
+  // Mantém o cache durante alguns minutos para acelerar buscas, mas evita
+  // que uma página aberta por muito tempo continue usando dados antigos.
+  var CACHE_TTL_MS = 5 * 60 * 1000;
 
   function parseLinhaCsv(linha) {
     var resultado = [];
@@ -1344,11 +1348,20 @@ white-space: nowrap;
 
   function baixarCsvDaFonte(fonte, ano, forcarAtualizacao) {
     var chave = fonte.chaveCache(ano);
-    if (!forcarAtualizacao && cacheCsv[chave]) {
+    var agora = Date.now();
+    var cacheValido = cacheCsv[chave] && cacheCsvEm[chave] &&
+      (agora - cacheCsvEm[chave] < CACHE_TTL_MS);
+
+    if (!forcarAtualizacao && cacheValido) {
       return Promise.resolve(cacheCsv[chave]);
     }
+
     return fonte.baixarCsv(ano).then(function (texto) {
+      if (!texto || !String(texto).trim()) {
+        throw new Error("O arquivo de dados retornou vazio.");
+      }
       cacheCsv[chave] = texto;
+      cacheCsvEm[chave] = Date.now();
       return texto;
     });
   }
