@@ -38,18 +38,30 @@ body {
   max-width: 980px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 16px;
 }
 .marca {
   color: #fff;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-weight: 800;
   font-size: 1.1rem;
 }
-.marca span { color: var(--agua-turquesa); font-weight: 400; }
+.marca-logo {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+}
+.marca-texto span { color: var(--agua-turquesa); font-weight: 400; }
+.voltar-wrap {
+  margin-bottom: 18px;
+}
 .voltar {
+  display: inline-block;
   color: #fff;
   text-decoration: none;
   font-size: .8rem;
@@ -116,12 +128,17 @@ li { margin-bottom: 7px; }
 <body>
 <header class="topo">
   <div class="topo-inner">
-    <a class="marca" href="index.html">itbi<span>data</span></a>
-    <a class="voltar" href="index.html">← Voltar à busca</a>
+    <a class="marca" href="index.html">
+      <img src="./favicon.png" alt="itbidata" class="marca-logo">
+      <span class="marca-texto">itbi<span>data</span></span>
+    </a>
   </div>
 </header>
 
 <main>
+  <div class="voltar-wrap">
+    <a class="voltar" href="index.html">← Voltar à busca</a>
+  </div>
   <h1>Metodologia e fontes dos dados</h1>
   <p class="lead">
     Esta página explica como o itbidata organiza e apresenta informações públicas

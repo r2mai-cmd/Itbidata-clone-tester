@@ -35,6 +35,9 @@
   .btn-nav:hover { background-color: rgba(255,255,255,0.12); }
   .btn-destaque { background-color: #388e9c; border-color: #4eb3c4; }
 
+  .voltar-wrap { margin-bottom: 18px; }
+  .voltar { display: inline-block; color: #fff; text-decoration: none; font-size: 0.8rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.25); border-radius: 999px; padding: 7px 12px; }
+  .voltar:hover { background: rgba(255,255,255,0.1); }
   .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; width: 100%; }
   .cartao-conteudo { background: var(--pergaminho); border-radius: 16px; padding: 40px; color: var(--texto-card); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
   h1 { font-size: 1.8rem; font-weight: 800; text-transform: uppercase; margin-top: 0; color: var(--texto-card); border-bottom: 2px solid var(--dourado-linha); padding-bottom: 12px; }
@@ -53,13 +56,12 @@
       <img src="./favicon.png" alt="itbidata" />
       <span class="nome-marca">itbi<span>data</span></span>
     </a>
-    <div class="menu-nav">
-      <a href="estatisticas.html" class="btn-nav btn-destaque">Estatísticas</a>
-      <a href="index.html" class="btn-nav">Início</a>
-    </div>
   </div>
 
   <main class="container">
+    <div class="voltar-wrap">
+      <a class="voltar" href="index.html">&larr; Voltar à busca</a>
+    </div>
     <div class="cartao-conteudo">
       <h1>Termos de Uso &amp; Contato</h1>
       <p>Bem-vindo ao <strong>itbidata</strong>. Ao acessar e utilizar as nossas calculadoras, simuladores e conteúdos estatísticos, você concorda expressamente com os termos descritos abaixo.</p>
@@ -77,7 +79,7 @@
       <p>Dúvidas, sugestões, reporte de inconsistências matemáticas ou solicitações de parceria podem ser encaminhadas diretamente para a nossa equipe através do canal oficial abaixo:</p>
       
       <div class="bloco-contato">
-        <p>E-mail de Suporte: <strong>suporte@itbidata.com.br</strong></p>
+        <p>E-mail de Suporte: <strong>itbidata9@gmail.com</strong></p>
         <p>Prazo médio de resposta: Até 48 horas úteis.</p>
       </div>
     </div>
