@@ -706,10 +706,10 @@ white-space: nowrap;
             </div>
           </div>
 
-          <button class="botao botao-primario" id="btn-pesquisar">&#128269; Pesquisar</button>
+          <button type="button" class="botao botao-primario" id="btn-pesquisar">&#128269; Pesquisar</button>
           <div class="acoes-secundarias">
-            <button class="botao-texto" id="btn-limpar">&#10005; Limpar</button>
-            <button class="botao-texto" id="btn-atualizar">&#8635; Atualizar dados</button>
+            <button type="button" class="botao-texto" id="btn-limpar">&#10005; Limpar</button>
+            <button type="button" class="botao-texto" id="btn-atualizar">&#8635; Atualizar dados</button>
           </div>
 
           <div class="barra-progresso" id="barra-progresso"><div class="barra-progresso-preenchimento"></div></div>
@@ -865,10 +865,8 @@ white-space: nowrap;
   "use strict";
 
   var cacheCsv = {};
-  var cacheCsvEm = {};
-  // Mantém o cache durante alguns minutos para acelerar buscas, mas evita
-  // que uma página aberta por muito tempo continue usando dados antigos.
-  var CACHE_TTL_MS = 5 * 60 * 1000;
+  var cacheCsvQuando = {};
+  var CACHE_CSV_TTL_MS = 5 * 60 * 1000;
 
   function parseLinhaCsv(linha) {
     var resultado = [];
@@ -1349,19 +1347,12 @@ white-space: nowrap;
   function baixarCsvDaFonte(fonte, ano, forcarAtualizacao) {
     var chave = fonte.chaveCache(ano);
     var agora = Date.now();
-    var cacheValido = cacheCsv[chave] && cacheCsvEm[chave] &&
-      (agora - cacheCsvEm[chave] < CACHE_TTL_MS);
-
-    if (!forcarAtualizacao && cacheValido) {
+    if (!forcarAtualizacao && cacheCsv[chave] && cacheCsvQuando[chave] && (agora - cacheCsvQuando[chave] < CACHE_CSV_TTL_MS)) {
       return Promise.resolve(cacheCsv[chave]);
     }
-
     return fonte.baixarCsv(ano).then(function (texto) {
-      if (!texto || !String(texto).trim()) {
-        throw new Error("O arquivo de dados retornou vazio.");
-      }
       cacheCsv[chave] = texto;
-      cacheCsvEm[chave] = Date.now();
+      cacheCsvQuando[chave] = Date.now();
       return texto;
     });
   }
@@ -1497,6 +1488,7 @@ white-space: nowrap;
 
   function definirCarregando(carregando) {
     elBtnPesquisar.disabled = carregando;
+    elBtnPesquisar.textContent = carregando ? "⏳ Consultando..." : "🔍 Pesquisar";
     elBtnLimpar.disabled = carregando;
     elBtnAtualizar.disabled = carregando;
     elBarraProgresso.classList.toggle("ativa", carregando);
