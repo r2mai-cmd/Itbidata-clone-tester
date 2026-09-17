@@ -587,49 +587,62 @@ white-space: nowrap;
 
 /* ===== Conteúdo editorial / confiança / SEO ===== */
 .conteudo-editorial {
-  margin: 0 20px 28px;
-  background: var(--pergaminho);
-  color: var(--texto-card);
-  border-radius: 14px;
-  padding: 28px 30px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  max-width: 920px;
+  margin: 10px auto 28px;
+  background: transparent;
+  color: var(--texto-sobre-fundo);
+  padding: 0 20px;
 }
 .conteudo-editorial h2 {
-  margin: 0 0 10px;
-  font-size: 1.25rem;
+  margin: 0 0 3px;
+  padding-left: 10px;
+  border-left: 3px solid var(--laranja);
+  font-size: 0.95rem;
+  line-height: 1.2;
   font-weight: 800;
 }
-.conteudo-editorial h3 {
-  margin: 22px 0 7px;
-  font-size: 0.92rem;
-  font-weight: 800;
+.conteudo-editorial .editorial-subtitulo {
+  margin: 0 0 10px 13px;
+  font-size: 0.68rem;
+  color: var(--texto-sobre-fundo-sutil);
 }
 .conteudo-editorial p {
-  margin: 0 0 10px;
-  line-height: 1.65;
-  font-size: 0.9rem;
+  margin: 0 0 8px;
+  line-height: 1.5;
+  font-size: 0.72rem;
 }
-.conteudo-editorial ul, .conteudo-editorial ol {
-  margin: 8px 0 12px 20px;
-  padding: 0;
-  line-height: 1.65;
-  font-size: 0.9rem;
-}
-.conteudo-editorial a { color: #7A4318; font-weight: 700; }
 .bloco-editorial-grade {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
 .bloco-editorial-grade > div {
-  border: 1px solid rgba(36,35,31,0.10);
-  border-radius: 10px;
-  padding: 16px;
+  background: var(--fundo-escuro-claro);
+  border: 1px solid rgba(245,243,237,0.10);
+  border-radius: 8px;
+  padding: 10px;
+  min-height: 0;
 }
-@media (max-width: 900px) {
+.bloco-editorial-grade > div:last-child {
+  grid-column: 1 / -1;
+  border-left: 3px solid var(--agua-turquesa);
+}
+.conteudo-editorial h3 {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+.conteudo-editorial ul, .conteudo-editorial ol {
+  margin: 4px 0 0 14px;
+  padding: 0;
+  line-height: 1.45;
+  font-size: 0.68rem;
+}
+.conteudo-editorial a { color: var(--agua-turquesa); font-weight: 700; }
+@media (max-width: 650px) {
+  .conteudo-editorial { padding: 0 14px; }
   .bloco-editorial-grade { grid-template-columns: 1fr; }
-  .conteudo-editorial { margin-left: 16px; margin-right: 16px; padding: 22px; }
+  .bloco-editorial-grade > div:last-child { grid-column: auto; }
 }
 
 </style>
@@ -642,8 +655,6 @@ white-space: nowrap;
   </a>
   <div class="menu-nav">
     <a href="estatisticas.html" class="btn-nav btn-destaque">Estatísticas</a>
-    <a href="sobre.html" class="btn-nav">Sobre</a>
-    <a href="metodologia.html" class="btn-nav">Metodologia</a>
     <div class="dropdown">
       <a href="#" class="btn-nav btn-destaque">Simuladores ▾</a>
       <div class="dropdown-conteudo">
@@ -771,55 +782,30 @@ white-space: nowrap;
     </div>
 
     <section class="conteudo-editorial" aria-labelledby="sobre-itbidata">
-      <h2 id="sobre-itbidata">Dados públicos de transações imobiliárias</h2>
-      <p>
-        O itbidata organiza e facilita a consulta de dados públicos de ITBI disponibilizados por
-        fontes municipais. A ferramenta permite pesquisar transações por cidade, endereço e período
-        e consultar, quando disponíveis na fonte, informações como valor da negociação, data,
-        bairro, áreas do imóvel e outros campos cadastrais.
-      </p>
-      <p>
-        Os dados apresentados são registros de bases públicas e não representam anúncios de imóveis
-        à venda. O histórico de uma transação não significa que o imóvel esteja atualmente disponível
-        nem substitui uma avaliação imobiliária, certidão oficial ou orientação profissional.
-      </p>
-
+      <h2 id="sobre-itbidata">Entenda os dados de transações imobiliárias</h2>
+      <p class="editorial-subtitulo">Um guia rápido para interpretar as informações apresentadas pelo itbidata.</p>
       <div class="bloco-editorial-grade">
         <div>
-          <h3>Como consultar</h3>
-          <ol>
-            <li>Escolha a cidade.</li>
-            <li>Digite parte do nome da rua ou avenida.</li>
-            <li>Informe o número, se desejar.</li>
-            <li>Selecione o ano ou consulte o histórico disponível.</li>
-            <li>Abra um resultado para ver os detalhes.</li>
-          </ol>
+          <h3>O que é o ITBI?</h3>
+          <p>ITBI é o Imposto sobre a Transmissão de Bens Imóveis, relacionado a transações onerosas de imóveis entre vivos. As bases utilizadas pelo itbidata são informações públicas disponibilizadas pelos municípios.</p>
         </div>
         <div>
-          <h3>O que os resultados mostram</h3>
-          <p>
-            Dependendo da fonte municipal, podem aparecer valor da negociação, datas, endereço,
-            bairro, área, percentual transmitido, finalidade, matrícula, CEP, situação e indicadores
-            derivados, como o preço por metro quadrado.
-          </p>
+          <h3>O que significa o valor de uma transação?</h3>
+          <p>O valor exibido corresponde a uma informação presente na base pública utilizada para aquela cidade e período. Ele não é uma avaliação feita pelo itbidata e não representa, por si só, o preço atual de mercado de um imóvel.</p>
         </div>
         <div>
-          <h3>Fontes e limitações</h3>
-          <p>
-            O itbidata é um projeto independente. Os dados são tratados para permitir pesquisa e
-            apresentação padronizadas, mas podem conter lacunas, atrasos ou inconsistências herdadas
-            das bases originais.
-          </p>
-          <p><a href="fontes.html">Conheça as fontes dos dados</a> · <a href="metodologia.html">Veja a metodologia</a></p>
+          <h3>Como interpretar os R$/m²?</h3>
+          <p>O valor por metro quadrado é uma medida de comparação entre registros quando existem dados compatíveis de valor e área. Imóveis de uma mesma rua ou bairro podem ter R$/m² diferentes por causa de área, localização, características, conservação, data e condições de negociação.</p>
+        </div>
+        <div>
+          <h3>Por que os resultados podem variar?</h3>
+          <p>Cada prefeitura possui sua própria base, estrutura, cobertura e critérios de publicação. Além disso, os imóveis presentes em uma amostra não são necessariamente iguais. Por isso, médias e comparações devem ser interpretadas dentro do contexto do período e da cidade pesquisados.</p>
+        </div>
+        <div>
+          <h3>Use os dados como referência</h3>
+          <p>O itbidata organiza dados públicos para facilitar pesquisa e comparação. Para decisões de compra, venda, financiamento, investimento ou questões jurídicas, confira a informação diretamente na fonte oficial do município e, quando necessário, utilize documentos e orientação profissional.</p>
         </div>
       </div>
-
-      <h3>Por que consultar dados de ITBI?</h3>
-      <p>
-        Valores de transações efetivamente registrados podem ajudar a compreender o comportamento
-        histórico do mercado imobiliário de uma região. A comparação deve considerar período,
-        localização, características do imóvel e as limitações da base utilizada.
-      </p>
     </section>
 
     <!-- Rodapé atualizado com disclaimer genérico multiciadades, termos e contato -->
@@ -836,17 +822,11 @@ white-space: nowrap;
         antes de qualquer decisão.
       </p>
       <div class="links-rodape">
-        <a href="sobre.html">Sobre</a>
+        <a href="metodologia.html">Metodologia e Fontes</a>
         <span>&bull;</span>
-        <a href="metodologia.html">Metodologia</a>
+        <a href="privacidade.html">Política de Privacidade</a>
         <span>&bull;</span>
-        <a href="fontes.html">Fontes</a>
-        <span>&bull;</span>
-        <a href="privacidade.html">Privacidade</a>
-        <span>&bull;</span>
-        <a href="termos.html">Termos</a>
-        <span>&bull;</span>
-        <a href="contato.html">Contato</a>
+        <a href="termos.html">Termos de Uso &amp; Contato</a>
       </div>
     </footer>
   </div>
@@ -911,8 +891,44 @@ white-space: nowrap;
     return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim();
   }
   function normalizarLogradouro(s) {
-    return normalizarParaBusca(s)
+    var texto = normalizarParaBusca(s);
+
+    // Padroniza abreviações e nomes por extenso para que formas como
+    // "Av. Ipiranga", "Av Ipiranga" e "Avenida Ipiranga" sejam equivalentes.
+    var equivalencias = [
+      [/\b(?:AV|AVENIDA)\.?(?=\s|$)/g, " AVENIDA "],
+      [/\b(?:R|RUA)\.?(?=\s|$)/g, " RUA "],
+      [/\b(?:AL|ALAMEDA)\.?(?=\s|$)/g, " ALAMEDA "],
+      [/\b(?:TRAV|TV|TRAVESSA)\.?(?=\s|$)/g, " TRAVESSA "],
+      [/\b(?:EST|ESTRADA)\.?(?=\s|$)/g, " ESTRADA "],
+      [/\b(?:ROD|RODOVIA)\.?(?=\s|$)/g, " RODOVIA "],
+      [/\b(?:PCA|PC|PRACA)\.?(?=\s|$)/g, " PRACA "],
+      [/\b(?:LG|LARGO)\.?(?=\s|$)/g, " LARGO "],
+      [/\b(?:PQ|PARQUE)\.?(?=\s|$)/g, " PARQUE "],
+      [/\b(?:BC|BECO)\.?(?=\s|$)/g, " BECO "],
+      [/\b(?:VL|VIELA)\.?(?=\s|$)/g, " VIELA "],
+      [/\b(?:SER|SERVIDAO)\.?(?=\s|$)/g, " SERVIDAO "],
+      [/\b(?:PROF|PROFESSOR)\.?(?=\s|$)/g, " PROFESSOR "],
+      [/\b(?:DR|DOUTOR)\.?(?=\s|$)/g, " DOUTOR "],
+      [/\b(?:PRES|PRESIDENTE)\.?(?=\s|$)/g, " PRESIDENTE "],
+      [/\b(?:GOV|GOVERNADOR)\.?(?=\s|$)/g, " GOVERNADOR "],
+      [/\b(?:SEN|SENADOR)\.?(?=\s|$)/g, " SENADOR "],
+      [/\b(?:DES|DESEMBARGADOR)\.?(?=\s|$)/g, " DESEMBARGADOR "],
+      [/\b(?:CEL|CORONEL)\.?(?=\s|$)/g, " CORONEL "],
+      [/\b(?:MAL|MARECHAL)\.?(?=\s|$)/g, " MARECHAL "],
+      [/\b(?:GEN|GENERAL)\.?(?=\s|$)/g, " GENERAL "],
+      [/\b(?:ALM|ALMIRANTE)\.?(?=\s|$)/g, " ALMIRANTE "],
+      [/\b(?:PE|PADRE)\.?(?=\s|$)/g, " PADRE "],
+      [/\b(?:FR|FREI)\.?(?=\s|$)/g, " FREI "]
+    ];
+
+    equivalencias.forEach(function (item) {
+      texto = texto.replace(item[0], item[1]);
+    });
+
+    return texto
       .replace(/\b(DE|DA|DO|DAS|DOS|E)\b/g, " ")
+      .replace(/[^A-Z0-9]+/g, " ")
       .replace(/\s+/g, " ")
       .trim();
   }
