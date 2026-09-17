@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- CHECKPOINT OK: versão estável — 2026-09-14 — datas SP + percentual corrigidos -->
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -102,7 +101,7 @@ letter-spacing: -0.01em;
 .dropdown-conteudo { display: none; position: absolute; right: 0; top: 100%; min-width: 260px; background-color: var(--fundo-escuro-claro); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.45); z-index: 100; padding: 8px 0; margin-top: 0px; border: 1px solid rgba(255,255,255,0.12); }
 .dropdown-conteudo a { color: var(--pergaminho); padding: 10px 16px; text-decoration: none; display: block; font-size: 0.8rem; font-weight: 600; transition: background 0.15s, color 0.15s; }
 .dropdown-conteudo a:hover { background-color: rgba(240, 145, 58, 0.18); color: var(--laranja); }
-.dropdown:hover .dropdown-conteudo, .dropdown-conteudo:hover, .dropdown.aberto .dropdown-conteudo { display: block; }
+.dropdown:hover .dropdown-conteudo, .dropdown-conteudo:hover { display: block; }
 
 /* ===== Cabecalho: foto + titulo expandido 100% ===== */
 .cabecalho {
@@ -803,16 +802,9 @@ white-space: nowrap;
 
   function parseDataPoa(texto) {
     if (!texto) return null;
-    var t = texto.trim();
-    var m = t.match(/^(\d{4})[\/-](\d{2})[\/-](\d{2})/);
-    if (m) {
-      return { y: parseInt(m[1], 10), mo: parseInt(m[2], 10), d: parseInt(m[3], 10) };
-    }
-    m = t.match(/^(\d{2})[\/-](\d{2})[\/-](\d{4})/);
-    if (m) {
-      return { y: parseInt(m[3], 10), mo: parseInt(m[2], 10), d: parseInt(m[1], 10) };
-    }
-    return null;
+    var m = texto.trim().match(/^(\d{4})\/(\d{2})\/(\d{2})/);
+    if (!m) return null;
+    return { y: parseInt(m[1], 10), mo: parseInt(m[2], 10), d: parseInt(m[3], 10) };
   }
   function chaveOrdenacao(data) {
     return data ? data.y * 10000 + data.mo * 100 + data.d : -1;
@@ -1024,10 +1016,9 @@ white-space: nowrap;
     },
 
     "sao-paulo": {
-      anosDisponiveis: [2026, 2025, 2024, 2023, 2022, 2021, 2020],
+      anosDisponiveis: [2026, 2025, 2024, 2023, 2022, 2020],
       arquivoLocalPorAno: {
         2020: "data/itbi-sp-2020.csv",
-        2021: "data/itbi-sp-2021.csv",
         2022: "data/itbi-sp-2022.csv",
         2023: "data/itbi-sp-2023.csv",
         2024: "data/itbi-sp-2024.csv",
@@ -1056,10 +1047,6 @@ white-space: nowrap;
             if (reg) {
               reg.cidadeNome = "São Paulo";
               reg.estadoSigla = "SP";
-              // Na base de SP, alguns registros antigos usam 10000 para representar 100%.
-              if (reg.percTransmitido !== null && reg.percTransmitido > 100) {
-                reg.percTransmitido = reg.percTransmitido / 100;
-              }
               registros.push(reg);
             }
           } catch (e) {}
@@ -1110,15 +1097,14 @@ white-space: nowrap;
     },
 
     recife: {
-      anosDisponiveis: [2026, 2025, 2024, 2023, 2022, 2021, 2020],
+      anosDisponiveis: [2025, 2024, 2023, 2022, 2021, 2020],
       arquivoLocalPorAno: {
         2020: "data/itbi-recife-2020.csv",
         2021: "data/itbi-recife-2021.csv",
         2022: "data/itbi-recife-2022.csv",
         2023: "data/itbi-recife-2023.csv",
         2024: "data/itbi-recife-2024.csv",
-        2025: "data/itbi-recife-2025.csv",
-        2026: "data/itbi-recife-2026.csv"
+        2025: "data/itbi-recife-2025.csv"
       },
       chaveCache: function (ano) { return "recife_" + ano; },
       baixarCsv: function (ano) {
@@ -1643,22 +1629,6 @@ white-space: nowrap;
     ultimosRegistros = [];
     fecharDetalhe();
   });
-
-  // ===== Menu de simuladores (clique/touch) =====
-  (function () {
-    var dropdown = document.querySelector(".dropdown");
-    var trigger = dropdown ? dropdown.querySelector(":scope > .btn-nav") : null;
-    if (!dropdown || !trigger) return;
-
-    trigger.addEventListener("click", function (ev) {
-      ev.preventDefault();
-      dropdown.classList.toggle("aberto");
-    });
-
-    document.addEventListener("click", function (ev) {
-      if (!dropdown.contains(ev.target)) dropdown.classList.remove("aberto");
-    });
-  })();
 
   // ===== Banner de cookies =====
   (function () {
