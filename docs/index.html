@@ -913,9 +913,7 @@ white-space: nowrap;
   }
 
 
-  // Correção conservadora de valores evidentemente inflados na base de Porto Alegre.
-  // Atua somente nos 14 casos previamente auditados e somente quando há correspondência
-  // de logradouro + número + unidade (quando conhecida) + valor original.
+  // Correção robusta de valores evidentemente inflados na base de Porto Alegre.
   function corrigirValorPoaConhecido(r) {
     if (!r || r.cidadeNome !== "Porto Alegre") return r;
 
@@ -926,10 +924,15 @@ white-space: nowrap;
 
     if (!isFinite(valor)) return r;
 
-    // Correções pontuais auditadas na base oficial de Porto Alegre.
+    // Blindagem direta para o caso específico da Casemiro de Abreu 1668 unidade 601
+    if (log.indexOf("casemiro de abreu") !== -1 && numEnd === "1668" && unid === "601" && valor > 50000000) {
+      r.baseCalculo = 1215000.00;
+      r._valorPoaCorrigido = true;
+      return r;
+    }
+
     var casos = [
       ["alberto bins", "870", "", 1365000000.00, 1365000.00],
-      ["casemiro de abreu", "1668", "601", 1215000000.00, 1215000.00],
       ["veador porto", "709", "60", 70000000.00, 70000.00],
       ["casemiro de abreu", "576", "321", 380000000.00, 380000.00],
       ["murilo furtado", "25", "601", 770000000.00, 770000.00],
@@ -949,7 +952,7 @@ white-space: nowrap;
       if (log.indexOf(c[0]) !== -1 &&
           numEnd === c[1] &&
           (!c[2] || unid === c[2]) &&
-          valor === c[3]) {
+          Math.abs(valor - c[3]) < 10) {
         r.baseCalculo = c[4];
         r._valorPoaCorrigido = true;
         r._valorPoaOriginal = c[3];
@@ -997,8 +1000,6 @@ white-space: nowrap;
       });
     });
   }
-
-  var BASE_POA = "https://dadosabertos.poa.br/dataset/dd8ee5be-06f4-4107-a3bf-5e15aebba6c1/resource";
 
   var FONTES = {
     poa: {
