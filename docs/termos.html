@@ -82,7 +82,7 @@ letter-spacing: -0.01em;
 position: relative;
 width: 100%;
 height: 300px;
-overflow: hidden;
+overflow: visible;
 margin: 0;
 }
 .cabecalho img {
@@ -131,7 +131,7 @@ max-width: 50ch;
   position:absolute;
   right:20px;
   bottom:-30px;
-  z-index:20;
+  z-index:50;
   color:#fff;
   text-decoration:none;
   font-weight:700;
@@ -148,7 +148,7 @@ max-width: 50ch;
 }
 .btn-voltar-busca:hover { background-color:#4b5055; }
 @media (max-width:650px) { .btn-voltar-busca { right:12px; bottom:-27px; font-size:.65rem; padding:6px 9px; } }
-.conteudo-pagina { max-width:920px; width:100%; margin:0 auto; padding:26px 14px 44px; flex:1; }
+.conteudo-pagina { position:relative; z-index:1; max-width:920px; width:100%; margin:0 auto; padding:26px 14px 44px; flex:1; }
 .card-pagina { background:var(--pergaminho); color:var(--texto-card); border-radius:10px; padding:18px 20px; margin:0 auto 10px; box-shadow:0 4px 14px rgba(0,0,0,.22); max-width:760px; }
 .card-pagina h2 { margin:0 0 7px; font-size:.84rem; line-height:1.25; }
 .card-pagina h3 { margin:15px 0 5px; font-size:.75rem; }
