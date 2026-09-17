@@ -23,14 +23,14 @@ body {
   flex-direction: column;
   overflow-x: hidden;
 }
+/* ===== Barra de marca (logo e menu unificado) ===== */
 .barra-marca {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  background: var(--fundo-escuro-claro);
-  width: 100%;
-  min-height: 66px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 14px 20px;
+background: var(--fundo-escuro-claro);
+width: 100%;
 }
 .link-marca {
   display: flex;
@@ -49,47 +49,87 @@ body {
   object-fit: cover;
   object-position: center 10%;
   transform: scale(1.2);
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 50%;
   box-sizing: border-box;
-  box-shadow: 0 2px 6px rgba(0,0,0,.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   flex-shrink: 0;
   overflow: hidden;
 }
 .barra-marca .nome-marca {
-  font-family: var(--fonte-corpo);
-  font-weight: 800;
-  font-size: 1.15rem;
-  color: var(--texto-sobre-fundo);
-  white-space: nowrap;
-  letter-spacing: -.01em;
+font-family: var(--fonte-corpo);
+font-weight: 800;
+font-size: 1.15rem;
+color: var(--texto-sobre-fundo);
+white-space: nowrap;
+letter-spacing: -0.01em;
 }
 .barra-marca .nome-marca span { font-weight: 400; color: var(--agua-turquesa); }
-.menu-nav { display:flex; align-items:center; gap:6px; flex-shrink:0; }
-.btn-nav {
-  color:#fff; text-decoration:none; font-weight:700; font-size:.78rem;
-  padding:7px 12px; border-radius:9999px; border:1px solid rgba(255,255,255,.25);
-  transition:all .2s; white-space:nowrap; background:transparent;
-  display:inline-flex; align-items:center;
+
+.menu-nav { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.btn-nav { color: #fff; text-decoration: none; font-weight: 700; font-size: 0.78rem; padding: 7px 12px; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.25); transition: all 0.2s; white-space: nowrap; background: transparent; display: inline-flex; align-items: center; }
+.btn-nav:hover { background-color: rgba(255,255,255,0.12); }
+.btn-destaque { background-color: #388e9c; border-color: #4eb3c4; }
+
+.dropdown { position: relative; display: inline-block; }
+.dropdown-conteudo { display: none; position: absolute; right: 0; top: 100%; min-width: 260px; background-color: var(--fundo-escuro-claro); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.45); z-index: 100; padding: 8px 0; margin-top: 0px; border: 1px solid rgba(255,255,255,0.12); }
+.dropdown-conteudo a { color: var(--pergaminho); padding: 10px 16px; text-decoration: none; display: block; font-size: 0.8rem; font-weight: 600; transition: background 0.15s, color 0.15s; }
+.dropdown-conteudo a:hover { background-color: rgba(240, 145, 58, 0.18); color: var(--laranja); }
+.dropdown:hover .dropdown-conteudo, .dropdown-conteudo:hover { display: block; }
+
+/* ===== Cabecalho: foto + titulo expandido 100% ===== */
+.cabecalho {
+position: relative;
+width: 100%;
+height: 300px;
+overflow: hidden;
+margin: 0;
 }
-.btn-nav:hover { background-color:rgba(255,255,255,.12); }
-.btn-destaque { background-color:#388e9c; border-color:#4eb3c4; }
-.dropdown { position:relative; display:inline-block; }
-.dropdown-conteudo {
-  display:none; position:absolute; right:0; top:100%; min-width:260px;
-  background-color:var(--fundo-escuro-claro); border-radius:12px;
-  box-shadow:0 10px 25px rgba(0,0,0,.45); z-index:100; padding:8px 0;
-  border:1px solid rgba(255,255,255,.12);
+.cabecalho img {
+display: block;
+width: 100%;
+height: 100%;
+object-fit: cover;
+object-position: center 55%;
 }
-.dropdown-conteudo a { color:var(--pergaminho); padding:10px 16px; text-decoration:none; display:block; font-size:.8rem; font-weight:600; }
-.dropdown-conteudo a:hover { background-color:rgba(240,145,58,.18); color:var(--laranja); }
-.dropdown:hover .dropdown-conteudo, .dropdown-conteudo:hover { display:block; }
-.cabecalho { position:relative; width:100%; height:220px; overflow:hidden; margin:0; }
-.cabecalho img { display:block; width:100%; height:100%; object-fit:cover; object-position:center 55%; }
-.cabecalho-veu { position:absolute; inset:0; background:linear-gradient(90deg,rgba(20,26,31,.95) 0%,rgba(20,26,31,.75) 45%,rgba(20,26,31,.3) 75%,rgba(20,26,31,.1) 100%); pointer-events:none; }
-.cabecalho-texto { position:absolute; left:0; right:0; bottom:0; padding:24px 20px; max-width:1800px; margin:0 auto; width:100%; }
-.cabecalho-titulo { margin:0; font-weight:800; text-transform:uppercase; font-size:clamp(1.35rem,2.8vw,2.15rem); color:#fff; letter-spacing:.01em; line-height:1.2; }
-.cabecalho-subtitulo { margin:7px 0 0; font-size:.86rem; color:rgba(255,255,255,.85); max-width:70ch; }
+.cabecalho-veu {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(20, 26, 31, 0.95) 0%, rgba(20, 26, 31, 0.75) 45%, rgba(20, 26, 31, 0.3) 75%, rgba(20, 26, 31, 0.1) 100%);
+  pointer-events: none;
+}
+.cabecalho-texto {
+position: absolute;
+left: 0;
+right: 0;
+bottom: 0;
+padding: 28px 20px;
+max-width: 1800px;
+margin: 0 auto;
+width: 100%;
+}
+.cabecalho-titulo {
+margin: 0;
+font-family: var(--fonte-corpo);
+font-weight: 800;
+text-transform: uppercase;
+font-size: clamp(1.4rem, 2.8vw, 2.3rem);
+color: #fff;
+letter-spacing: 0.01em;
+line-height: 1.2;
+}
+.cabecalho-subtitulo {
+margin: 8px 0 0;
+font-size: 0.9rem;
+color: rgba(255,255,255,0.85);
+max-width: 50ch;
+}
+
+
+/* Botão de retorno das páginas institucionais */
+.btn-voltar-busca { color:#fff; text-decoration:none; font-weight:700; font-size:.78rem; padding:7px 12px; border-radius:9999px; border:1px solid rgba(255,255,255,.25); transition:all .2s; white-space:nowrap; background:transparent; display:inline-flex; align-items:center; margin-left:6px; }
+.btn-voltar-busca:hover { background-color:rgba(255,255,255,.12); }
+@media (max-width:650px) { .btn-voltar-busca { font-size:.65rem; padding:6px 9px; } }
 .conteudo-pagina { max-width:920px; width:100%; margin:0 auto; padding:26px 14px 44px; flex:1; }
 .card-pagina { background:var(--pergaminho); color:var(--texto-card); border-radius:10px; padding:18px 20px; margin:0 auto 10px; box-shadow:0 4px 14px rgba(0,0,0,.22); max-width:760px; }
 .card-pagina h2 { margin:0 0 7px; font-size:.84rem; line-height:1.25; }
@@ -138,9 +178,17 @@ body {
         <a href="consorcio-vs-financiamento.html">💼 Consórcio vs. Financiamento</a>
       </div>
     </div>
+    <a href="index.html" class="btn-voltar-busca">← Voltar à busca</a>
   </div>
 </div>
-<header class="cabecalho"><img src="./banner.jpg" alt="Mercado imobiliário"><div class="cabecalho-veu"></div><div class="cabecalho-texto"><h1 class="cabecalho-titulo">TERMOS DE USO & CONTATO</h1><p class="cabecalho-subtitulo">Informações sobre o uso da plataforma, limitações dos resultados e canal de contato.</p></div></header>
+<header class="cabecalho">
+  <img src="./banner.jpg" alt="Mercado imobiliário" />
+  <div class="cabecalho-veu"></div>
+  <div class="cabecalho-texto">
+    <h1 class="cabecalho-titulo">TERMOS DE USO & CONTATO</h1>
+    <p class="cabecalho-subtitulo">Informações sobre o uso da plataforma, limitações dos resultados e canal de contato.</p>
+  </div>
+</header>
 <main class="conteudo-pagina"><section class="card-pagina"><p>Bem-vindo ao itbidata. Ao acessar e utilizar as nossas calculadoras, simuladores e conteúdos estatísticos, você concorda expressamente com os termos descritos abaixo.</p><h2 style="color:#B76728">1. FINALIDADE EDUCACIONAL E ESTIMATIVA</h2><p>Todas as ferramentas disponibilizadas no itbidata possuem caráter estritamente estimativo, matemático e educacional para fins de planejamento imobiliário. Os resultados calculados (como custos de ITBI, poder de compra, financiamentos SAC/PRICE e comparações de consórcio) não constituem propostas comerciais, ofertas de crédito, garantias contratuais ou consultoria financeira oficial.</p><h2 style="color:#B76728">2. ISENÇÃO DE RESPONSABILIDADE</h2><p>O itbidata é um portal independente. As taxas, alíquotas e índices utilizados buscam refletir as práticas usuais de mercado e instituições financeiras, porém podem sofrer variações sem aviso prévio. Recomendamos veementemente a consulta às fontes oficiais e aos órgãos competentes antes de qualquer tomada de decisão de compra ou contratação de crédito.</p><h2 style="color:#B76728">3. PROPRIEDADE INTELECTUAL</h2><p>A identidade visual, o design, os códigos de programação dos simuladores e os textos estruturados do itbidata são protegidos pelas regras aplicáveis de propriedade intelectual. É proibida a reprodução comercial não autorizada.</p><h2 style="color:#B76728">4. CANAL DE CONTATO</h2><p>Dúvidas, sugestões, relatos de inconsistências matemáticas ou solicitações de parceria podem ser encaminhadas diretamente à nossa equipe.</p><div class="contact-box"><strong>E-mail de contato: itbidata9@gmail.com</strong><br>Prazo estimado de resposta: até 48 horas úteis.</div></section></main>
 <footer class="rodape-pagina">
   <p>itbidata é uma plataforma independente de consulta e análise de dados públicos imobiliários.</p>

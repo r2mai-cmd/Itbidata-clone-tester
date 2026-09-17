@@ -895,19 +895,19 @@ white-space: nowrap;
       .trim();
   }
 
-  // Normaliza logradouros para que abreviações e nomes por extenso
-  // sejam equivalentes na pesquisa. Ex.: AV., AV e AVENIDA; PROF.,
-  // PROF e PROFESSOR; R. e RUA; PRES. e PRESIDENTE.
+  // Compara o nome do logradouro sem depender de abreviações de tipo
+  // e títulos que aparecem antes do nome: AV., AV, AVENIDA, PROF.,
+  // PROFESSOR, DR., DOUTOR, PRES., PRESIDENTE etc.
+  // Exemplos: "Av. Prof. Oscar" = "Avenida Professor Oscar".
   function normalizarLogradouro(s) {
     var texto = normalizarParaBusca(s)
-      .replace(/[.]/g, " ")
       .replace(/[^A-Z0-9]+/g, " ")
       .replace(/\s+/g, " ")
       .trim();
 
-    // Prefixos de tipo de logradouro e títulos são removidos do início
-    // do endereço. Assim, "Av. Ipiranga" e "Avenida Ipiranga" viram
-    // a mesma chave de busca: "IPIRANGA".
+    // Removemos uma cadeia de prefixos no início. Isso cobre combinações
+    // como "AV PROF OSCAR", "AVENIDA PROFESSOR OSCAR",
+    // "AV DR PROF OSCAR" e equivalentes.
     var prefixos = [
       "AVENIDA", "AV", "RUA", "R", "ALAMEDA", "AL", "TRAVESSA", "TRAV", "TV",
       "ESTRADA", "EST", "RODOVIA", "ROD", "PRACA", "PCA", "PC", "LARGO", "LG",
@@ -921,7 +921,7 @@ white-space: nowrap;
     while (alterou && texto) {
       alterou = false;
       for (var i = 0; i < prefixos.length; i++) {
-        var re = new RegExp("^" + prefixos[i] + "\\b\\s*", "");
+        var re = new RegExp("^" + prefixos[i] + "(?:\\s+|$)");
         if (re.test(texto)) {
           texto = texto.replace(re, "").trim();
           alterou = true;
@@ -930,7 +930,6 @@ white-space: nowrap;
       }
     }
 
-    // Conectivos comuns não devem impedir o encontro entre grafias equivalentes.
     return texto
       .replace(/\b(DE|DA|DO|DAS|DOS|E)\b/g, " ")
       .replace(/\s+/g, " ")
@@ -1313,8 +1312,15 @@ white-space: nowrap;
   }
 
   function coincide(registro, logradouroBusca, numeroBusca) {
-    var logradouroOk = !logradouroBusca ||
-      (registro.logradouro && normalizarLogradouro(registro.logradouro).indexOf(logradouroBusca) !== -1);
+    var logradouroOk = true;
+    if (logradouroBusca) {
+      var logradouroRegistro = normalizarLogradouro(registro.logradouro || "");
+      logradouroOk = !!logradouroRegistro && (
+        logradouroRegistro === logradouroBusca ||
+        logradouroRegistro.indexOf(logradouroBusca) !== -1 ||
+        logradouroBusca.indexOf(logradouroRegistro) !== -1
+      );
+    }
     var numeroOk = !numeroBusca ||
       (registro.numeroEndereco && registro.numeroEndereco.trim() === numeroBusca);
     return logradouroOk && numeroOk;
