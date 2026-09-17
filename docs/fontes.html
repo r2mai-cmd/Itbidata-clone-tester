@@ -1,40 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fontes dos dados — itbidata</title><meta name="description" content="Fontes públicas utilizadas pelo itbidata para dados de transações imobiliárias.">
-<meta name="robots" content="index,follow">
-<link rel="icon" type="image/png" href="./favicon.png">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#34383D;--bg2:#41464A;--paper:#EDE9DE;--text:#24231F;--muted:#6B6A63;--accent:#F0913A;--teal:#4FBFB8}
-*{box-sizing:border-box} body{margin:0;background:var(--bg);color:#F5F3ED;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.65}
-header{background:var(--bg2);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
-.brand{color:#fff;text-decoration:none;font-weight:800;font-size:1.2rem}.brand span{color:var(--teal);font-weight:400}
-nav{display:flex;gap:8px;flex-wrap:wrap}nav a{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:7px 12px;font-size:.78rem;font-weight:700}
-main{max-width:1000px;margin:0 auto;padding:34px 20px 48px} .card{background:var(--paper);color:var(--text);border-radius:14px;padding:28px 30px;margin-bottom:18px;box-shadow:0 4px 14px rgba(0,0,0,.2)}
-h1{font-size:2rem;line-height:1.2;margin:0 0 10px}h2{font-size:1.15rem;margin:26px 0 8px}h3{font-size:.95rem;margin:20px 0 6px}p{margin:0 0 12px}.lead{font-size:1rem}.meta{color:var(--muted);font-size:.85rem}
-ul,ol{padding-left:22px} a{color:#7A4318;font-weight:700} .darklink{color:var(--teal)}
-footer{max-width:1000px;margin:0 auto;padding:28px 20px 40px;text-align:center;color:rgba(245,243,237,.7);font-size:.78rem}footer a{color:var(--teal);margin:0 6px}
-table{width:100%;border-collapse:collapse;font-size:.88rem}th,td{text-align:left;padding:10px;border-bottom:1px solid rgba(36,35,31,.15);vertical-align:top}th{font-weight:800}
-@media(max-width:650px){main{padding:22px 14px 35px}.card{padding:22px}h1{font-size:1.6rem}}
-</style></head>
-<body>
-<header><a class="brand" href="index.html">itbi<span>data</span></a>
-<nav><a href="index.html">Consulta</a><a href="estatisticas.html">Estatísticas</a><a href="sobre.html">Sobre</a><a href="metodologia.html">Metodologia</a><a href="fontes.html">Fontes</a></nav></header>
-<main><section class="card"><h1>Fontes dos dados</h1>
-<p class="lead">O itbidata utiliza dados públicos disponibilizados por órgãos municipais. A disponibilidade e o período podem variar de uma cidade para outra.</p>
-<table><thead><tr><th>Cidade</th><th>Fonte</th><th>Observação</th></tr></thead><tbody>
-<tr><td>Porto Alegre — RS</td><td>Portal oficial de dados abertos do município</td><td>Registros de ITBI disponibilizados em arquivos por período.</td></tr>
-<tr><td>Fortaleza — CE</td><td>Portal oficial de dados abertos do município</td><td>Base municipal com estrutura própria.</td></tr>
-<tr><td>São Paulo — SP</td><td>Portal oficial de dados abertos do município</td><td>Base municipal com estrutura própria e períodos disponíveis conforme publicação.</td></tr>
-<tr><td>Belo Horizonte — MG</td><td>Portal oficial de dados abertos do município</td><td>Base municipal com estrutura própria.</td></tr>
-<tr><td>Recife — PE</td><td>Portal oficial de dados abertos do município</td><td>Base municipal com estrutura própria.</td></tr>
-</tbody></table>
-<h2>Sobre os links oficiais</h2><p>As URLs específicas das bases podem mudar conforme a estrutura dos portais municipais. O itbidata deve manter, sempre que possível, a referência à página oficial de origem e ao período do arquivo utilizado.</p>
-<h2>Licença e atribuição</h2><p>Quando a fonte original disponibilizar os dados sob licença aberta, a reutilização no itbidata respeita as condições da licença aplicável, incluindo atribuição quando exigida.</p>
-<p><a href="metodologia.html">Veja como os dados são tratados</a>.</p></section></main>
-<footer>
-  <p>itbidata é um projeto independente, sem vínculo com prefeituras ou órgãos públicos.</p>
-  <p><a class="darklink" href="privacidade.html">Privacidade</a> · <a class="darklink" href="termos.html">Termos</a> · <a class="darklink" href="contato.html">Contato</a></p>
-</footer>
-</body></html>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fontes dos dados — itbidata</title><meta name="description" content="Fontes municipais dos dados públicos utilizados pelo itbidata."><meta name="robots" content="index,follow"><link rel="icon" type="image/png" href="./favicon.png"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
+:root{--bg:#34383D;--bg2:#41464A;--paper:#EDE9DE;--text:#24231F;--muted:#6B6A63;--accent:#F0913A;--teal:#4FBFB8;--white:#F5F3ED}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg)}
+body{color:var(--white);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+.topbar{height:48px;background:var(--bg2);border-bottom:1px solid rgba(245,243,237,.10);display:flex;align-items:center;justify-content:space-between;padding:0 10px;position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--white);font-weight:800;font-size:.72rem}
+.brand img{width:28px;height:28px;border-radius:50%;background:#fff;object-fit:cover;object-position:center 10%;box-shadow:0 1px 4px rgba(0,0,0,.35)}
+.brand span{color:var(--teal);font-weight:400}
+.top-action{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.24);border-radius:999px;padding:5px 10px;font-size:.62rem;font-weight:700}
+.page{max-width:920px;margin:0 auto;padding:24px 14px 42px}
+.intro{max-width:760px;margin:0 auto 14px}.intro h1{margin:0;font-size:1.55rem;line-height:1.15}.intro p{margin:6px 0 0;font-size:.72rem;color:var(--white);opacity:.86}
+.card{background:var(--paper);color:var(--text);border-radius:10px;padding:18px 20px;margin:0 auto 10px;box-shadow:0 4px 14px rgba(0,0,0,.22);max-width:760px}
+.card h2{margin:0 0 7px;font-size:.84rem;line-height:1.25}.card h3{margin:15px 0 5px;font-size:.75rem}.card p,.card li{font-size:.68rem;line-height:1.55}.card p{margin:0 0 8px}.card ul{margin:4px 0 8px;padding-left:18px}.note{border-left:3px solid var(--accent);padding-left:9px}.pill-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}.pill{background:#f4f1e8;border:1px solid rgba(36,35,31,.10);border-radius:6px;padding:8px;font-size:.65rem;font-weight:800}.contact-box{background:#fff;border-radius:7px;border-left:3px solid var(--accent);padding:10px;margin-top:8px;font-size:.68rem}.contact-box a,.card a{color:#7A4318;font-weight:800}footer{border-top:1px solid rgba(245,243,237,.10);text-align:center;padding:18px 12px 26px;color:rgba(245,243,237,.58);font-size:.62rem}footer p{margin:0 0 5px}footer a{color:var(--teal);text-decoration:none;font-weight:700;margin:0 4px}
+@media(max-width:650px){.page{padding-top:18px}.intro h1{font-size:1.35rem}.card{padding:16px}.pill-grid{grid-template-columns:repeat(2,1fr)}}
+</style></head><body><header class="topbar"><a class="brand" href="index.html"><img src="./favicon.png" alt="itbidata"><span>itbi<span>data</span></span></a><a class="top-action" href="index.html">← Voltar à busca</a></header><main class="page"><section class="intro"><h1>Fontes dos dados</h1><p>As informações utilizadas pelo itbidata são provenientes de bases públicas municipais.</p></section><section class="card"><h2>Municípios atualmente consultáveis</h2><div class="pill-grid"><div class="pill">Porto Alegre — RS</div><div class="pill">São Paulo — SP</div><div class="pill">Belo Horizonte — MG</div><div class="pill">Fortaleza — CE</div><div class="pill">Recife — PE</div></div><p style="margin-top:12px">Para entender a organização, normalização, limitações e interpretação dos dados, consulte a página completa de <a href="metodologia.html">Metodologia e Fontes</a>.</p></section></main><footer><p>itbidata é uma plataforma independente de consulta e análise de dados públicos imobiliários.</p><p><a href="metodologia.html">Metodologia e Fontes</a> · <a href="privacidade.html">Política de Privacidade</a> · <a href="termos.html">Termos de Uso &amp; Contato</a></p></footer></body></html>
