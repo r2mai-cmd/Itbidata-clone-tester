@@ -913,52 +913,31 @@ white-space: nowrap;
   }
 
 
-  // Correção robusta de valores evidentemente inflados na base de Porto Alegre.
+  // Correção robusta com Trava Global de Outliers para Porto Alegre
   function corrigirValorPoaConhecido(r) {
     if (!r || r.cidadeNome !== "Porto Alegre") return r;
 
-    var log = normalizarLogradouro(r.logradouro || "");
-    var numEnd = String(r.numeroEndereco || "").trim();
-    var unid = String(r.numeroUnidade || "").trim();
     var valor = Number(r.baseCalculo);
-
     if (!isFinite(valor)) return r;
 
-    // Blindagem direta para o caso específico da Casemiro de Abreu 1668 unidade 601
-    if (log.indexOf("casemiro de abreu") !== -1 && numEnd === "1668" && unid === "601" && valor > 50000000) {
-      r.baseCalculo = 1215000.00;
-      r._valorPoaCorrigido = true;
-      return r;
-    }
+    // Trava Automática de Segurança para valores inflados acima de R$ 30 Milhões
+    if (valor > 30000000) {
+      var log = normalizarLogradouro(r.logradouro || "");
+      var numEnd = String(r.numeroEndereco || "").trim();
+      var unid = String(r.numeroUnidade || "").trim();
 
-    var casos = [
-      ["alberto bins", "870", "", 1365000000.00, 1365000.00],
-      ["veador porto", "709", "60", 70000000.00, 70000.00],
-      ["casemiro de abreu", "576", "321", 380000000.00, 380000.00],
-      ["murilo furtado", "25", "601", 770000000.00, 770000.00],
-      ["vicente da fontoura", "2005", "101", 355000000.00, 355000.00],
-      ["dr freire alemao", "912", "1003", 90000000.00, 90000.00],
-      ["padre chagas", "80", "07", 120000000.00, 1200000.00],
-      ["ciro gaviao", "66", "504", 3633007796.28, 810000.00],
-      ["juca batista", "9000", "1214", 1350000000.00, 1400000.00],
-      ["avenida bage", "757", "901", 1186475200.00, 1780000.00],
-      ["juca batista", "7030", "", 825000000.00, 885000.00],
-      ["alberto bins", "840", "", 728370000.00, 828000.00],
-      ["estrada joao antonio silveira", "1731", "201", 115000000.00, 165000.00]
-    ];
-
-    for (var i = 0; i < casos.length; i++) {
-      var c = casos[i];
-      if (log.indexOf(c[0]) !== -1 &&
-          numEnd === c[1] &&
-          (!c[2] || unid === c[2]) &&
-          Math.abs(valor - c[3]) < 10) {
-        r.baseCalculo = c[4];
-        r._valorPoaCorrigido = true;
-        r._valorPoaOriginal = c[3];
-        break;
+      if (log.indexOf("casemiro de abreu") !== -1 && numEnd === "1668" && unid === "601") {
+        r.baseCalculo = 1215000.00;
+      } else if (log.indexOf("ciro gaviao") !== -1 && numEnd === "66" && unid === "504") {
+        r.baseCalculo = 810000.00;
+      } else if (log.indexOf("vicente da fontoura") !== -1 && numEnd === "2005" && unid === "101") {
+        r.baseCalculo = 355000.00;
+      } else {
+        r.baseCalculo = valor / 1000;
       }
+      r._valorPoaCorrigido = true;
     }
+
     return r;
   }
 
