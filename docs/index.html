@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- CHECKPOINT OK: versão estável — 2026-09-14 — datas SP + percentual corrigidos -->
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -101,7 +102,7 @@ letter-spacing: -0.01em;
 .dropdown-conteudo { display: none; position: absolute; right: 0; top: 100%; min-width: 260px; background-color: var(--fundo-escuro-claro); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.45); z-index: 100; padding: 8px 0; margin-top: 0px; border: 1px solid rgba(255,255,255,0.12); }
 .dropdown-conteudo a { color: var(--pergaminho); padding: 10px 16px; text-decoration: none; display: block; font-size: 0.8rem; font-weight: 600; transition: background 0.15s, color 0.15s; }
 .dropdown-conteudo a:hover { background-color: rgba(240, 145, 58, 0.18); color: var(--laranja); }
-.dropdown:hover .dropdown-conteudo, .dropdown-conteudo:hover { display: block; }
+.dropdown:hover .dropdown-conteudo, .dropdown-conteudo:hover, .dropdown.aberto .dropdown-conteudo { display: block; }
 
 /* ===== Cabecalho: foto + titulo expandido 100% ===== */
 .cabecalho {
@@ -578,7 +579,6 @@ white-space: nowrap;
   margin: 0 !important;
 }
 </style>
-<!-- PATCH VALORES POA V3: correção aplicada com comparação case-insensitive -->
 </head>
 <body>
 <div class="barra-marca">
@@ -803,41 +803,16 @@ white-space: nowrap;
 
   function parseDataPoa(texto) {
     if (!texto) return null;
-    var t = String(texto).trim();
+    var t = texto.trim();
     var m = t.match(/^(\d{4})[\/-](\d{2})[\/-](\d{2})/);
-    if (m) return { y: parseInt(m[1], 10), mo: parseInt(m[2], 10), d: parseInt(m[3], 10) };
-    m = t.match(/^(\d{2})[\/-](\d{2})[\/-](\d{4})/);
-    if (m) return { y: parseInt(m[3], 10), mo: parseInt(m[2], 10), d: parseInt(m[1], 10) };
-    return null;
-  }
-
-  function normalizarPercentualSp(v) {
-    var n = Number(v);
-    if (!isFinite(n)) return null;
-    // Alguns arquivos de SP registram 100% como 100 e outros como 10000.
-    // Mantemos a escala em percentual humano (0 a 100).
-    while (n > 100 && n <= 10000) n = n / 100;
-    return n;
-  }
-
-  function deduplicarRegistrosExatos(registros) {
-    var vistos = Object.create(null);
-    var saida = [];
-    for (var i = 0; i < registros.length; i++) {
-      var r = registros[i];
-      var data = r.dataReferencia ? (r.dataReferencia.y + '-' + r.dataReferencia.mo + '-' + r.dataReferencia.d) : '';
-      var chave = [
-        r.cidadeNome, r.ano, data, normalizarLogradouro(r.logradouro || ''),
-        String(r.numeroEndereco || ''), String(r.numeroUnidade || ''),
-        String(r.numeroMatricula || ''), String(r.areaConstrPrivativa || ''),
-        String(r.baseCalculo || ''), String(r.percTransmitido || ''),
-        normalizarParaBusca(r.finalidadeConstrucao || '')
-      ].join('|');
-      if (vistos[chave]) continue;
-      vistos[chave] = true;
-      saida.push(r);
+    if (m) {
+      return { y: parseInt(m[1], 10), mo: parseInt(m[2], 10), d: parseInt(m[3], 10) };
     }
-    return saida;
+    m = t.match(/^(\d{2})[\/-](\d{2})[\/-](\d{4})/);
+    if (m) {
+      return { y: parseInt(m[3], 10), mo: parseInt(m[2], 10), d: parseInt(m[1], 10) };
+    }
+    return null;
   }
   function chaveOrdenacao(data) {
     return data ? data.y * 10000 + data.mo * 100 + data.d : -1;
@@ -945,54 +920,6 @@ white-space: nowrap;
     };
   }
 
-
-  // Correção conservadora de valores evidentemente inflados na base de Porto Alegre.
-  // Atua somente nos 14 casos previamente auditados e somente quando há correspondência
-  // de logradouro + número + unidade (quando conhecida) + valor original.
-  function corrigirValorPoaConhecido(r) {
-    if (!r || r.cidadeNome !== "Porto Alegre") return r;
-
-    var log = normalizarLogradouro(r.logradouro || "");
-    var numEnd = String(r.numeroEndereco || "").trim();
-    var unid = String(r.numeroUnidade || "").trim();
-    var valor = Number(r.baseCalculo);
-    if (!isFinite(valor)) return r;
-
-    // Correções pontuais auditadas. A comparação do logradouro é feita
-    // usando a MESMA normalização da busca. Não há divisão genérica.
-    var casos = [
-      ["ALBERTO BINS", "870", "", 1365000000.00, 1365000.00],
-      ["CASEMIRO DE ABREU", "1668", "601", 1215000000.00, 1215000.00],
-      ["VEADOR PORTO", "709", "60", 70000000.00, 70000.00],
-      ["CASEMIRO DE ABREU", "576", "321", 380000000.00, 380000.00],
-      ["MURILO FURTADO", "25", "601", 770000000.00, 770000.00],
-      ["VICENTE DA FONTOURA", "2005", "101", 355000000.00, 355000.00],
-      ["DR FREIRE ALEMAO", "912", "1003", 90000000.00, 900000.00],
-      ["PADRE CHAGAS", "80", "07", 120000000.00, 1200000.00],
-      ["CIRO GAVIAO", "66", "504", 3633007796.28, 810000.00],
-      ["JUCA BATISTA", "9000", "1214", 1350000000.00, 1400000.00],
-      ["AVENIDA BAGE", "757", "901", 1186475200.00, 1780000.00],
-      ["JUCA BATISTA", "7030", "", 825000000.00, 885000.00],
-      ["ALBERTO BINS", "840", "", 728370000.00, 828000.00],
-      ["ESTRADA JOAO ANTONIO SILVEIRA", "1731", "201", 115000000.00, 165000.00]
-    ];
-
-    for (var i = 0; i < casos.length; i++) {
-      var c = casos[i];
-      var chaveLogradouro = normalizarLogradouro(c[0]);
-      if (log.indexOf(chaveLogradouro) !== -1 &&
-          numEnd === c[1] &&
-          (!c[2] || unid === c[2]) &&
-          valor === c[3]) {
-        r.baseCalculo = c[4];
-        r._valorPoaCorrigido = true;
-        r._valorPoaOriginal = c[3];
-        return r;
-      }
-    }
-    return r;
-  }
-
   function enderecoCompleto(r) {
     var partes = [];
     if (r.logradouro) partes.push(r.logradouro);
@@ -1062,15 +989,10 @@ white-space: nowrap;
           if (!linha.trim()) continue;
           try {
             var reg = converterRegistroPoa(parseLinhaCsv(linha), ano);
-            if (reg) {
-              reg = corrigirValorPoaConhecido(reg);
-              // Em Porto Alegre, Data Pagamento vazia significa que a guia não foi paga.
-              // A busca pública deve representar transações efetivadas, não versões preliminares.
-              if (reg.dataPagamento) registros.push(reg);
-            }
+            if (reg) registros.push(reg);
           } catch (e) { /* ignora linha malformada */ }
         }
-        return deduplicarRegistrosExatos(registros);
+        return registros;
       }
     },
 
@@ -1097,14 +1019,15 @@ white-space: nowrap;
             if (reg) registros.push(reg);
           } catch (e) { /* ignora linha malformada */ }
         }
-        return deduplicarRegistrosExatos(registros);
+        return registros;
       }
     },
 
     "sao-paulo": {
-      anosDisponiveis: [2026, 2025, 2024, 2023, 2022, 2020],
+      anosDisponiveis: [2026, 2025, 2024, 2023, 2022, 2021, 2020],
       arquivoLocalPorAno: {
         2020: "data/itbi-sp-2020.csv",
+        2021: "data/itbi-sp-2021.csv",
         2022: "data/itbi-sp-2022.csv",
         2023: "data/itbi-sp-2023.csv",
         2024: "data/itbi-sp-2024.csv",
@@ -1124,25 +1047,24 @@ white-space: nowrap;
         if (!texto) return [];
         var linhas = texto.split("\n");
         var registros = [];
-        for (var i = 0; i < linhas.length; i++) {
+        for (var i = 1; i < linhas.length; i++) {
           var linha = linhas[i].replace(/\r$/, "");
           if (!linha.trim()) continue;
           try {
             var campos = parseLinhaCsv(linha);
-            var dataSp = campos[0] ? String(campos[0]).trim() : "";
-            if (!/^(?:\d{2}\/\d{2}\/\d{4}|\d{4}\/\d{2}\/\d{2})/.test(dataSp)) continue;
             var reg = converterRegistroPoa(campos, ano);
             if (reg) {
               reg.cidadeNome = "São Paulo";
               reg.estadoSigla = "SP";
-              reg.dataReferencia = parseDataPoa(dataSp);
-              reg.dataPagamento = reg.dataReferencia;
-              reg.percTransmitido = normalizarPercentualSp(reg.percTransmitido);
+              // Na base de SP, alguns registros antigos usam 10000 para representar 100%.
+              if (reg.percTransmitido !== null && reg.percTransmitido > 100) {
+                reg.percTransmitido = reg.percTransmitido / 100;
+              }
               registros.push(reg);
             }
           } catch (e) {}
         }
-        return deduplicarRegistrosExatos(registros);
+        return registros;
       }
     },
 
@@ -1183,19 +1105,20 @@ white-space: nowrap;
             }
           } catch (e) {}
         }
-        return deduplicarRegistrosExatos(registros);
+        return registros;
       }
     },
 
     recife: {
-      anosDisponiveis: [2025, 2024, 2023, 2022, 2021, 2020],
+      anosDisponiveis: [2026, 2025, 2024, 2023, 2022, 2021, 2020],
       arquivoLocalPorAno: {
         2020: "data/itbi-recife-2020.csv",
         2021: "data/itbi-recife-2021.csv",
         2022: "data/itbi-recife-2022.csv",
         2023: "data/itbi-recife-2023.csv",
         2024: "data/itbi-recife-2024.csv",
-        2025: "data/itbi-recife-2025.csv"
+        2025: "data/itbi-recife-2025.csv",
+        2026: "data/itbi-recife-2026.csv"
       },
       chaveCache: function (ano) { return "recife_" + ano; },
       baixarCsv: function (ano) {
@@ -1223,7 +1146,7 @@ white-space: nowrap;
             }
           } catch (e) {}
         }
-        return deduplicarRegistrosExatos(registros);
+        return registros;
       }
     }
   };
@@ -1720,6 +1643,22 @@ white-space: nowrap;
     ultimosRegistros = [];
     fecharDetalhe();
   });
+
+  // ===== Menu de simuladores (clique/touch) =====
+  (function () {
+    var dropdown = document.querySelector(".dropdown");
+    var trigger = dropdown ? dropdown.querySelector(":scope > .btn-nav") : null;
+    if (!dropdown || !trigger) return;
+
+    trigger.addEventListener("click", function (ev) {
+      ev.preventDefault();
+      dropdown.classList.toggle("aberto");
+    });
+
+    document.addEventListener("click", function (ev) {
+      if (!dropdown.contains(ev.target)) dropdown.classList.remove("aberto");
+    });
+  })();
 
   // ===== Banner de cookies =====
   (function () {
