@@ -912,6 +912,53 @@ white-space: nowrap;
     };
   }
 
+
+  // Correção conservadora de valores evidentemente inflados na base de Porto Alegre.
+  // Atua somente nos 14 casos previamente auditados e somente quando há correspondência
+  // de logradouro + número + unidade (quando conhecida) + valor original.
+  function corrigirValorPoaConhecido(r) {
+    if (!r || r.cidadeNome !== "Porto Alegre") return r;
+
+    var log = normalizarLogradouro(r.logradouro || "");
+    var numEnd = String(r.numeroEndereco || "").trim();
+    var unid = String(r.numeroUnidade || "").trim();
+    var valor = Number(r.baseCalculo);
+
+    if (!isFinite(valor)) return r;
+
+    // Correções pontuais auditadas na base oficial de Porto Alegre.
+    var casos = [
+      ["alberto bins", "870", "", 1365000000.00, 1365000.00],
+      ["casemiro de abreu", "1668", "601", 1215000000.00, 1215000.00],
+      ["veador porto", "709", "60", 70000000.00, 70000.00],
+      ["casemiro de abreu", "576", "321", 380000000.00, 380000.00],
+      ["murilo furtado", "25", "601", 770000000.00, 770000.00],
+      ["vicente da fontoura", "2005", "101", 355000000.00, 355000.00],
+      ["dr freire alemao", "912", "1003", 90000000.00, 90000.00],
+      ["padre chagas", "80", "07", 120000000.00, 1200000.00],
+      ["ciro gaviao", "66", "504", 3633007796.28, 810000.00],
+      ["juca batista", "9000", "1214", 1350000000.00, 1400000.00],
+      ["avenida bage", "757", "901", 1186475200.00, 1780000.00],
+      ["juca batista", "7030", "", 825000000.00, 885000.00],
+      ["alberto bins", "840", "", 728370000.00, 828000.00],
+      ["estrada joao antonio silveira", "1731", "201", 115000000.00, 165000.00]
+    ];
+
+    for (var i = 0; i < casos.length; i++) {
+      var c = casos[i];
+      if (log.indexOf(c[0]) !== -1 &&
+          numEnd === c[1] &&
+          (!c[2] || unid === c[2]) &&
+          valor === c[3]) {
+        r.baseCalculo = c[4];
+        r._valorPoaCorrigido = true;
+        r._valorPoaOriginal = c[3];
+        break;
+      }
+    }
+    return r;
+  }
+
   function enderecoCompleto(r) {
     var partes = [];
     if (r.logradouro) partes.push(r.logradouro);
@@ -981,7 +1028,7 @@ white-space: nowrap;
           if (!linha.trim()) continue;
           try {
             var reg = converterRegistroPoa(parseLinhaCsv(linha), ano);
-            if (reg) registros.push(reg);
+            if (reg) registros.push(corrigirValorPoaConhecido(reg));
           } catch (e) { /* ignora linha malformada */ }
         }
         return registros;
@@ -1451,7 +1498,6 @@ white-space: nowrap;
     elDetalhe.hidden = false;
     elDetalhe.style.display = "block";
     
-    // Rola suavemente até o início do bloco de detalhes (onde aparece "Voltar à lista")
     setTimeout(function() {
       var rect = elDetalhe.getBoundingClientRect();
       var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -1550,7 +1596,6 @@ white-space: nowrap;
     }
     detalheEmpilhadoNoHistorico = false;
     
-    // Rola suavemente até o início da lista de resultados encontrada
     setTimeout(function() {
       var rect = elBarraTopoResultados.getBoundingClientRect();
       var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -1593,7 +1638,6 @@ white-space: nowrap;
       elContagem.textContent = resultado.registros.length + " registro(s) encontrado(s)";
       renderizarResultados(resultado.registros);
       
-      // Rola suavemente até o topo da lista de resultados encontrada após a pesquisa
       setTimeout(function() {
         var rect = elBarraTopoResultados.getBoundingClientRect();
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
