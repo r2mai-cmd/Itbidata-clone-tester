@@ -926,21 +926,23 @@ white-space: nowrap;
 
     if (!isFinite(valor)) return r;
 
+    // Correções pontuais auditadas na base oficial de Porto Alegre.
+    // Não aplica divisão genérica: só altera a combinação exata de endereço/unidade/valor.
     var casos = [
-      ["alberto bins", "870", "", 1365000000, 1365000],
-      ["casemiro de abreu", "1668", "601", 1215000000, 1215000],
-      ["veador porto", "709", "60", 70000000, 70000],
-      ["casemiro de abreu", "576", "321", 380000000, 380000],
-      ["murilo furtado", "25", "601", 770000000, 770000],
-      ["vicente da fontoura", "2005", "101", 355000000, 355000],
-      ["dr freire alemao", "912", "1003", 90000000, 900000],
-      ["padre chagas", "80", "07", 120000000, 1200000],
-      ["ciro gaviao", "66", "504", 3633000000, 810000],
-      ["juca batista", "9000", "1214", 1350000000, 1400000],
-      ["avenida bage", "757", "901", 1186000000, 1780000],
-      ["juca batista", "7030", "", 825000000, 885000],
-      ["alberto bins", "840", "", 728370000, 828000],
-      ["estrada joao antonio silveira", "1731", "201", 115000000, 165000]
+      ["alberto bins", "870", "", 1365000000.00, 1365000.00],
+      ["casemiro de abreu", "1668", "601", 1215000000.00, 1215000.00],
+      ["veador porto", "709", "60", 70000000.00, 70000.00],
+      ["casemiro de abreu", "576", "321", 380000000.00, 380000.00],
+      ["murilo furtado", "25", "601", 770000000.00, 770000.00],
+      ["vicente da fontoura", "2005", "101", 355000000.00, 355000.00],
+      ["dr freire alemao", "912", "1003", 90000000.00, 900000.00],
+      ["padre chagas", "80", "07", 120000000.00, 1200000.00],
+      ["ciro gaviao", "66", "504", 3633007796.28, 810000.00],
+      ["juca batista", "9000", "1214", 1350000000.00, 1400000.00],
+      ["avenida bage", "757", "901", 1186475200.00, 1780000.00],
+      ["juca batista", "7030", "", 825000000.00, 885000.00],
+      ["alberto bins", "840", "", 728370000.00, 828000.00],
+      ["estrada joao antonio silveira", "1731", "201", 115000000.00, 165000.00]
     ];
 
     for (var i = 0; i < casos.length; i++) {
@@ -1027,7 +1029,7 @@ white-space: nowrap;
           if (!linha.trim()) continue;
           try {
             var reg = converterRegistroPoa(parseLinhaCsv(linha), ano);
-            if (reg) registros.push(reg);
+            if (reg) registros.push(corrigirValorPoaConhecido(reg));
           } catch (e) { /* ignora linha malformada */ }
         }
         return registros;
