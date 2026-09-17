@@ -127,9 +127,27 @@ max-width: 50ch;
 
 
 /* Botão de retorno das páginas institucionais */
-.btn-voltar-busca { color:#fff; text-decoration:none; font-weight:700; font-size:.78rem; padding:7px 12px; border-radius:9999px; border:1px solid rgba(255,255,255,.25); transition:all .2s; white-space:nowrap; background:transparent; display:inline-flex; align-items:center; margin-left:6px; }
-.btn-voltar-busca:hover { background-color:rgba(255,255,255,.12); }
-@media (max-width:650px) { .btn-voltar-busca { font-size:.65rem; padding:6px 9px; } }
+.btn-voltar-busca {
+  position:absolute;
+  right:20px;
+  bottom:-30px;
+  z-index:20;
+  color:#fff;
+  text-decoration:none;
+  font-weight:700;
+  font-size:.78rem;
+  padding:7px 12px;
+  border-radius:9999px;
+  border:1px solid rgba(255,255,255,.25);
+  transition:all .2s;
+  white-space:nowrap;
+  background:var(--fundo-escuro-claro);
+  display:inline-flex;
+  align-items:center;
+  box-shadow:0 4px 10px rgba(0,0,0,.22);
+}
+.btn-voltar-busca:hover { background-color:#4b5055; }
+@media (max-width:650px) { .btn-voltar-busca { right:12px; bottom:-27px; font-size:.65rem; padding:6px 9px; } }
 .conteudo-pagina { max-width:920px; width:100%; margin:0 auto; padding:26px 14px 44px; flex:1; }
 .card-pagina { background:var(--pergaminho); color:var(--texto-card); border-radius:10px; padding:18px 20px; margin:0 auto 10px; box-shadow:0 4px 14px rgba(0,0,0,.22); max-width:760px; }
 .card-pagina h2 { margin:0 0 7px; font-size:.84rem; line-height:1.25; }
@@ -178,12 +196,12 @@ max-width: 50ch;
         <a href="consorcio-vs-financiamento.html">💼 Consórcio vs. Financiamento</a>
       </div>
     </div>
-    <a href="index.html" class="btn-voltar-busca">← Voltar à busca</a>
   </div>
 </div>
 <header class="cabecalho">
   <img src="./banner.jpg" alt="Mercado imobiliário" />
   <div class="cabecalho-veu"></div>
+  <a href="index.html" class="btn-voltar-busca">← Voltar à busca</a>
   <div class="cabecalho-texto">
     <h1 class="cabecalho-titulo">METODOLOGIA E FONTES DOS DADOS</h1>
     <p class="cabecalho-subtitulo">Como os dados públicos de transações imobiliárias são organizados e apresentados pelo itbidata.</p>
