@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Metodologia — itbidata</title><meta name="description" content="Metodologia do itbidata para tratamento, organização e apresentação de dados públicos de ITBI.">
+<title>Fontes dos dados — itbidata</title><meta name="description" content="Fontes públicas utilizadas pelo itbidata para dados de transações imobiliárias.">
 <meta name="robots" content="index,follow">
 <link rel="icon" type="image/png" href="./favicon.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,16 +21,18 @@ table{width:100%;border-collapse:collapse;font-size:.88rem}th,td{text-align:left
 <body>
 <header><a class="brand" href="index.html">itbi<span>data</span></a>
 <nav><a href="index.html">Consulta</a><a href="estatisticas.html">Estatísticas</a><a href="sobre.html">Sobre</a><a href="metodologia.html">Metodologia</a><a href="fontes.html">Fontes</a></nav></header>
-<main><section class="card"><h1>Metodologia</h1>
-<p class="lead">Esta página explica, em linguagem simples, como o itbidata organiza os dados públicos utilizados nas consultas.</p>
-<h2>1. Origem</h2><p>Os registros são obtidos de bases públicas disponibilizadas por municípios e portais oficiais. O itbidata não cria os registros de transações.</p>
-<h2>2. Importação</h2><p>Os arquivos são lidos e transformados em uma estrutura comum para permitir que a interface apresente cidades diferentes de maneira consistente.</p>
-<h2>3. Normalização</h2><p>Quando necessário, são normalizados elementos de pesquisa como acentuação, caixa de texto e determinadas formas de escrita de logradouros. Essa normalização serve à busca e não pretende alterar o conteúdo original da fonte.</p>
-<h2>4. Datas e valores</h2><p>Datas e valores são convertidos para formatos adequados à apresentação e ordenação. Campos ausentes permanecem sem informação quando a fonte não os fornece.</p>
-<h2>5. Indicadores derivados</h2><p>Alguns indicadores são calculados a partir dos campos disponíveis, como preço por metro quadrado. Esses cálculos são derivados e não substituem o valor original da fonte.</p>
-<h2>6. Correção monetária</h2><p>Quando disponível na ficha de uma transação, a ferramenta de correção consulta séries públicas do Banco Central do Brasil e apresenta uma estimativa calculada a partir dos índices selecionados. O resultado é informativo.</p>
-<h2>7. Limitações</h2><ul><li>uma base municipal pode ser atualizada ou corrigida depois da publicação;</li><li>nem todos os campos estão disponíveis em todas as cidades;</li><li>registros de fontes diferentes podem ter conceitos e estruturas diferentes;</li><li>um registro histórico não significa que o imóvel esteja à venda atualmente.</li></ul>
-<p><strong>Importante:</strong> em caso de divergência, a fonte oficial deve prevalecer.</p></section></main>
+<main><section class="card"><h1>Fontes dos dados</h1>
+<p class="lead">O itbidata utiliza dados públicos disponibilizados por órgãos municipais. A disponibilidade e o período podem variar de uma cidade para outra.</p>
+<table><thead><tr><th>Cidade</th><th>Fonte</th><th>Observação</th></tr></thead><tbody>
+<tr><td>Porto Alegre — RS</td><td>Portal oficial de dados abertos do município</td><td>Registros de ITBI disponibilizados em arquivos por período.</td></tr>
+<tr><td>Fortaleza — CE</td><td>Portal oficial de dados abertos do município</td><td>Base municipal com estrutura própria.</td></tr>
+<tr><td>São Paulo — SP</td><td>Portal oficial de dados abertos do município</td><td>Base municipal com estrutura própria e períodos disponíveis conforme publicação.</td></tr>
+<tr><td>Belo Horizonte — MG</td><td>Portal oficial de dados abertos do município</td><td>Base municipal com estrutura própria.</td></tr>
+<tr><td>Recife — PE</td><td>Portal oficial de dados abertos do município</td><td>Base municipal com estrutura própria.</td></tr>
+</tbody></table>
+<h2>Sobre os links oficiais</h2><p>As URLs específicas das bases podem mudar conforme a estrutura dos portais municipais. O itbidata deve manter, sempre que possível, a referência à página oficial de origem e ao período do arquivo utilizado.</p>
+<h2>Licença e atribuição</h2><p>Quando a fonte original disponibilizar os dados sob licença aberta, a reutilização no itbidata respeita as condições da licença aplicável, incluindo atribuição quando exigida.</p>
+<p><a href="metodologia.html">Veja como os dados são tratados</a>.</p></section></main>
 <footer>
   <p>itbidata é um projeto independente, sem vínculo com prefeituras ou órgãos públicos.</p>
   <p><a class="darklink" href="privacidade.html">Privacidade</a> · <a class="darklink" href="termos.html">Termos</a> · <a class="darklink" href="contato.html">Contato</a></p>

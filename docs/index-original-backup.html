@@ -3,14 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>itbidata — Dados e histórico de transações imobiliárias</title>
-<meta name="description" content="Consulte dados públicos de transações imobiliárias de ITBI por cidade, endereço e período. Veja valores, datas, áreas, bairros e histórico de negociações disponíveis nas fontes municipais.">
-<meta name="robots" content="index,follow,max-image-preview:large">
-<meta name="author" content="itbidata">
-<meta property="og:type" content="website">
-<meta property="og:title" content="itbidata — Dados e histórico de transações imobiliárias">
-<meta property="og:description" content="Consulta e análise de dados públicos de transações imobiliárias de ITBI.">
-<meta property="og:locale" content="pt_BR">
+<title>itbidata &mdash; Inteligência de Mercado Imobiliário</title>
 <link rel="icon" type="image/png" href="./favicon.png">
 <link rel="apple-touch-icon" href="./favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
@@ -584,54 +577,6 @@ white-space: nowrap;
   color: #6B6A63 !important;
   margin: 0 !important;
 }
-
-/* ===== Conteúdo editorial / confiança / SEO ===== */
-.conteudo-editorial {
-  margin: 0 20px 28px;
-  background: var(--pergaminho);
-  color: var(--texto-card);
-  border-radius: 14px;
-  padding: 28px 30px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
-}
-.conteudo-editorial h2 {
-  margin: 0 0 10px;
-  font-size: 1.25rem;
-  font-weight: 800;
-}
-.conteudo-editorial h3 {
-  margin: 22px 0 7px;
-  font-size: 0.92rem;
-  font-weight: 800;
-}
-.conteudo-editorial p {
-  margin: 0 0 10px;
-  line-height: 1.65;
-  font-size: 0.9rem;
-}
-.conteudo-editorial ul, .conteudo-editorial ol {
-  margin: 8px 0 12px 20px;
-  padding: 0;
-  line-height: 1.65;
-  font-size: 0.9rem;
-}
-.conteudo-editorial a { color: #7A4318; font-weight: 700; }
-.bloco-editorial-grade {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 18px;
-}
-.bloco-editorial-grade > div {
-  border: 1px solid rgba(36,35,31,0.10);
-  border-radius: 10px;
-  padding: 16px;
-}
-@media (max-width: 900px) {
-  .bloco-editorial-grade { grid-template-columns: 1fr; }
-  .conteudo-editorial { margin-left: 16px; margin-right: 16px; padding: 22px; }
-}
-
 </style>
 </head>
 <body>
@@ -642,8 +587,6 @@ white-space: nowrap;
   </a>
   <div class="menu-nav">
     <a href="estatisticas.html" class="btn-nav btn-destaque">Estatísticas</a>
-    <a href="sobre.html" class="btn-nav">Sobre</a>
-    <a href="metodologia.html" class="btn-nav">Metodologia</a>
     <div class="dropdown">
       <a href="#" class="btn-nav btn-destaque">Simuladores ▾</a>
       <div class="dropdown-conteudo">
@@ -770,58 +713,6 @@ white-space: nowrap;
       </main>
     </div>
 
-    <section class="conteudo-editorial" aria-labelledby="sobre-itbidata">
-      <h2 id="sobre-itbidata">Dados públicos de transações imobiliárias</h2>
-      <p>
-        O itbidata organiza e facilita a consulta de dados públicos de ITBI disponibilizados por
-        fontes municipais. A ferramenta permite pesquisar transações por cidade, endereço e período
-        e consultar, quando disponíveis na fonte, informações como valor da negociação, data,
-        bairro, áreas do imóvel e outros campos cadastrais.
-      </p>
-      <p>
-        Os dados apresentados são registros de bases públicas e não representam anúncios de imóveis
-        à venda. O histórico de uma transação não significa que o imóvel esteja atualmente disponível
-        nem substitui uma avaliação imobiliária, certidão oficial ou orientação profissional.
-      </p>
-
-      <div class="bloco-editorial-grade">
-        <div>
-          <h3>Como consultar</h3>
-          <ol>
-            <li>Escolha a cidade.</li>
-            <li>Digite parte do nome da rua ou avenida.</li>
-            <li>Informe o número, se desejar.</li>
-            <li>Selecione o ano ou consulte o histórico disponível.</li>
-            <li>Abra um resultado para ver os detalhes.</li>
-          </ol>
-        </div>
-        <div>
-          <h3>O que os resultados mostram</h3>
-          <p>
-            Dependendo da fonte municipal, podem aparecer valor da negociação, datas, endereço,
-            bairro, área, percentual transmitido, finalidade, matrícula, CEP, situação e indicadores
-            derivados, como o preço por metro quadrado.
-          </p>
-        </div>
-        <div>
-          <h3>Fontes e limitações</h3>
-          <p>
-            O itbidata é um projeto independente. Os dados são tratados para permitir pesquisa e
-            apresentação padronizadas, mas podem conter lacunas, atrasos ou inconsistências herdadas
-            das bases originais.
-          </p>
-          <p><a href="fontes.html">Conheça as fontes dos dados</a> · <a href="metodologia.html">Veja a metodologia</a></p>
-        </div>
-      </div>
-
-      <h3>Por que consultar dados de ITBI?</h3>
-      <p>
-        Valores de transações efetivamente registrados podem ajudar a compreender o comportamento
-        histórico do mercado imobiliário de uma região. A comparação deve considerar período,
-        localização, características do imóvel e as limitações da base utilizada.
-      </p>
-    </section>
-
     <!-- Rodapé atualizado com disclaimer genérico multiciadades, termos e contato -->
     <footer class="rodape">
       <p>
@@ -836,17 +727,9 @@ white-space: nowrap;
         antes de qualquer decisão.
       </p>
       <div class="links-rodape">
-        <a href="sobre.html">Sobre</a>
+        <a href="privacidade.html">Política de Privacidade</a>
         <span>&bull;</span>
-        <a href="metodologia.html">Metodologia</a>
-        <span>&bull;</span>
-        <a href="fontes.html">Fontes</a>
-        <span>&bull;</span>
-        <a href="privacidade.html">Privacidade</a>
-        <span>&bull;</span>
-        <a href="termos.html">Termos</a>
-        <span>&bull;</span>
-        <a href="contato.html">Contato</a>
+        <a href="termos.html">Termos de Uso &amp; Contato (itbidata9@gmail.com)</a>
       </div>
     </footer>
   </div>

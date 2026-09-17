@@ -1,0 +1,34 @@
+itbidata — pacote de preparação para AdSense
+
+O que foi feito:
+- index.html: meta description, robots, Open Graph, conteúdo editorial original, links institucionais.
+- sobre.html
+- metodologia.html
+- fontes.html
+- contato.html
+- privacidade.html
+- termos.html
+- ads.txt
+- robots.txt
+
+O que NÃO foi alterado:
+- parsers de Porto Alegre, Fortaleza, São Paulo, Belo Horizonte e Recife;
+- lógica de busca e paginação;
+- CSVs;
+- estatísticas;
+- simuladores.
+
+Isso foi intencional para evitar repetir os bugs de dados observados anteriormente.
+
+ANTES DO PUSH:
+1. Confira as páginas privacidade.html e termos.html e ajuste qualquer informação jurídica específica do projeto.
+2. No Google AdSense, configure Privacy & messaging / consentimento para o tráfego do EEE, Reino Unido e Suíça, se aplicável.
+3. O sitemap.xml não foi criado porque o domínio canônico do site não foi fornecido nesta conversa. Não publique um sitemap com domínio de teste ou inventado.
+4. Depois do push, confirme:
+   - https://SEU-DOMINIO/ads.txt
+   - https://SEU-DOMINIO/robots.txt
+   - páginas institucionais abrindo sem 404.
+5. No AdSense, faça a verificação do site e só então solicite a revisão.
+
+IMPORTANTE:
+O arquivo index.html fornecido contém o publisher ID ca-pub-4809506430686227; por isso o ads.txt usa pub-4809506430686227.
