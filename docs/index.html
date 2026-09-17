@@ -578,6 +578,7 @@ white-space: nowrap;
   margin: 0 !important;
 }
 </style>
+<!-- PATCH VALORES POA V3: correção aplicada com comparação case-insensitive -->
 </head>
 <body>
 <div class="barra-marca">
@@ -923,38 +924,38 @@ white-space: nowrap;
     var numEnd = String(r.numeroEndereco || "").trim();
     var unid = String(r.numeroUnidade || "").trim();
     var valor = Number(r.baseCalculo);
-
     if (!isFinite(valor)) return r;
 
-    // Correções pontuais auditadas na base oficial de Porto Alegre.
-    // Não aplica divisão genérica: só altera a combinação exata de endereço/unidade/valor.
+    // Correções pontuais auditadas. A comparação do logradouro é feita
+    // usando a MESMA normalização da busca. Não há divisão genérica.
     var casos = [
-      ["alberto bins", "870", "", 1365000000.00, 1365000.00],
-      ["casemiro de abreu", "1668", "601", 1215000000.00, 1215000.00],
-      ["veador porto", "709", "60", 70000000.00, 70000.00],
-      ["casemiro de abreu", "576", "321", 380000000.00, 380000.00],
-      ["murilo furtado", "25", "601", 770000000.00, 770000.00],
-      ["vicente da fontoura", "2005", "101", 355000000.00, 355000.00],
-      ["dr freire alemao", "912", "1003", 90000000.00, 900000.00],
-      ["padre chagas", "80", "07", 120000000.00, 1200000.00],
-      ["ciro gaviao", "66", "504", 3633007796.28, 810000.00],
-      ["juca batista", "9000", "1214", 1350000000.00, 1400000.00],
-      ["avenida bage", "757", "901", 1186475200.00, 1780000.00],
-      ["juca batista", "7030", "", 825000000.00, 885000.00],
-      ["alberto bins", "840", "", 728370000.00, 828000.00],
-      ["estrada joao antonio silveira", "1731", "201", 115000000.00, 165000.00]
+      ["ALBERTO BINS", "870", "", 1365000000.00, 1365000.00],
+      ["CASEMIRO DE ABREU", "1668", "601", 1215000000.00, 1215000.00],
+      ["VEADOR PORTO", "709", "60", 70000000.00, 70000.00],
+      ["CASEMIRO DE ABREU", "576", "321", 380000000.00, 380000.00],
+      ["MURILO FURTADO", "25", "601", 770000000.00, 770000.00],
+      ["VICENTE DA FONTOURA", "2005", "101", 355000000.00, 355000.00],
+      ["DR FREIRE ALEMAO", "912", "1003", 90000000.00, 900000.00],
+      ["PADRE CHAGAS", "80", "07", 120000000.00, 1200000.00],
+      ["CIRO GAVIAO", "66", "504", 3633007796.28, 810000.00],
+      ["JUCA BATISTA", "9000", "1214", 1350000000.00, 1400000.00],
+      ["AVENIDA BAGE", "757", "901", 1186475200.00, 1780000.00],
+      ["JUCA BATISTA", "7030", "", 825000000.00, 885000.00],
+      ["ALBERTO BINS", "840", "", 728370000.00, 828000.00],
+      ["ESTRADA JOAO ANTONIO SILVEIRA", "1731", "201", 115000000.00, 165000.00]
     ];
 
     for (var i = 0; i < casos.length; i++) {
       var c = casos[i];
-      if (log.indexOf(c[0]) !== -1 &&
+      var chaveLogradouro = normalizarLogradouro(c[0]);
+      if (log.indexOf(chaveLogradouro) !== -1 &&
           numEnd === c[1] &&
           (!c[2] || unid === c[2]) &&
           valor === c[3]) {
         r.baseCalculo = c[4];
         r._valorPoaCorrigido = true;
         r._valorPoaOriginal = c[3];
-        break;
+        return r;
       }
     }
     return r;
