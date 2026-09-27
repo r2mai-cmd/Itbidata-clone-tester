@@ -516,7 +516,26 @@ animation: deslizar 1.1s ease-in-out infinite;
 
 /* ===== Ficha de detalhe ===== */
 .ficha-titulo { font-family: var(--fonte-corpo); font-size: 1.5rem; font-weight: 800; color: var(--texto-sobre-fundo); margin: 0 0 4px; }
-.ficha-subtitulo { font-size: 0.85rem; color: var(--texto-sobre-fundo-sutil); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 20px; }
+.ficha-subtitulo {
+display: flex;
+align-items: center;
+gap: 10px;
+font-size: 0.85rem;
+color: var(--texto-sobre-fundo-sutil);
+text-transform: uppercase;
+letter-spacing: 0.08em;
+margin: 0 0 20px;
+min-height: 34px;
+}
+.ficha-subtitulo .link-streetview {
+  color: var(--agua-turquesa);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+.ficha-subtitulo .botao-compartilhar {
+  margin-left: auto;
+  flex-shrink: 0;
+}
 .ficha-linha {
 display: flex; justify-content: space-between; gap: 16px;
 padding: 10px 0; border-bottom: 1px solid rgba(36,35,31,0.12);
@@ -1704,15 +1723,14 @@ white-space: nowrap;
 
     var html = '<div class="acoes-detalhe">';
     html += '<a class="link-voltar" id="link-voltar">&larr; Voltar à lista</a>';
-    html += '<button class="botao-compartilhar" id="btn-compartilhar" type="button">&#8599; Compartilhar</button>';
     html += '</div>';
+    html += '<h2 class="ficha-titulo"></h2>';
+    html += '<p class="ficha-subtitulo" id="ficha-bairro"></p>';
     html += '<div class="menu-compartilhar" id="menu-compartilhar">';
     html += '<button id="btn-whatsapp" type="button">WhatsApp</button>';
     html += '<button id="btn-email" type="button">E-mail</button>';
     html += '<button id="btn-copiar-link" type="button">Copiar link</button>';
     html += '</div>';
-    html += '<h2 class="ficha-titulo"></h2>';
-    html += '<p class="ficha-subtitulo" id="ficha-bairro"></p>';
 
     html += '<div class="ficha-cartoes">';
     html += '<div class="cartao"><p class="ficha-secao-titulo">Dados da negociação</p>';
@@ -1766,11 +1784,17 @@ white-space: nowrap;
         link.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(enderecoMapa) + "&layer=c";
         link.target = "_blank";
         link.rel = "noopener";
-        link.style.marginLeft = "10px";
-        link.style.color = "var(--agua-turquesa)";
+        link.className = "link-streetview";
         link.textContent = "VER NO STREETVIEW";
         bairroEl.appendChild(link);
       }
+    }
+    var btnCompartilhar = document.createElement("button");
+    btnCompartilhar.id = "btn-compartilhar";
+    btnCompartilhar.type = "button";
+    btnCompartilhar.className = "botao-compartilhar";
+    btnCompartilhar.innerHTML = "&#8599; Compartilhar";
+    bairroEl.appendChild(btnCompartilhar);
     }
     document.getElementById("link-voltar").addEventListener("click", function () {
       fecharDetalhe();
