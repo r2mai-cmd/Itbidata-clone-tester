@@ -415,6 +415,57 @@ margin-bottom: 16px;
 }
 .link-voltar:hover { color: var(--agua-turquesa); }
 
+.acoes-detalhe {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.acoes-detalhe .link-voltar { margin-bottom: 0; }
+.botao-compartilhar {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(79,191,184,0.65);
+  background: transparent;
+  color: var(--agua-turquesa);
+  border-radius: 999px;
+  padding: 8px 13px;
+  font-family: var(--fonte-corpo);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.botao-compartilhar:hover {
+  background: rgba(79,191,184,0.10);
+}
+.menu-compartilhar {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  margin: -8px 0 16px auto;
+  padding: 8px;
+  background: var(--fundo-escuro-claro);
+  border-radius: 10px;
+  width: fit-content;
+}
+.menu-compartilhar.ativo { display: flex; }
+.menu-compartilhar button {
+  border: 0;
+  background: var(--pergaminho);
+  color: var(--texto-card);
+  border-radius: 7px;
+  padding: 7px 10px;
+  font-family: var(--fonte-corpo);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 /* ===== Controles de Paginação (Rodapé da Lista) ===== */
 .controles-paginacao {
   display: flex;
@@ -1574,6 +1625,68 @@ white-space: nowrap;
       '</div><div class="ficha-valor">' + valor + '</div></div>';
   }
 
+  function construirUrlDetalhe(r) {
+    var params = new URLSearchParams();
+    var cidade = elCidade.value || "";
+    var ano = r.ano || (elAno.value || "");
+    var logradouro = r.logradouro || elEndereco.value || "";
+    var numero = r.numeroEndereco || elNumero.value || "";
+    var unidade = r.numeroUnidade || r.complementoEndereco || elUnidade.value || "";
+
+    if (cidade) params.set("cidade", cidade);
+    if (ano) params.set("ano", String(ano));
+    if (logradouro) params.set("logradouro", logradouro);
+    if (numero) params.set("numero", numero);
+    if (unidade) params.set("unidade", unidade);
+
+    return window.location.origin + window.location.pathname + "?" + params.toString();
+  }
+
+  function abrirWhatsAppCompartilhar() {
+    if (!urlDetalheAtual) return;
+    var texto = "Confira este registro no itbidata: " + urlDetalheAtual;
+    window.open("https://wa.me/?text=" + encodeURIComponent(texto), "_blank", "noopener");
+  }
+
+  function abrirEmailCompartilhar() {
+    if (!urlDetalheAtual) return;
+    var assunto = "Registro de imóvel no itbidata";
+    var corpo = "Confira este registro no itbidata:\n\n" + urlDetalheAtual;
+    window.location.href = "mailto:?subject=" + encodeURIComponent(assunto) + "&body=" + encodeURIComponent(corpo);
+  }
+
+  function copiarLinkCompartilhar() {
+    if (!urlDetalheAtual) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(urlDetalheAtual).then(function () {
+        var btn = document.getElementById("btn-copiar-link");
+        if (btn) {
+          var textoOriginal = btn.textContent;
+          btn.textContent = "Link copiado!";
+          setTimeout(function () { btn.textContent = textoOriginal; }, 1400);
+        }
+      }).catch(function () {
+        window.prompt("Copie o link abaixo:", urlDetalheAtual);
+      });
+    } else {
+      window.prompt("Copie o link abaixo:", urlDetalheAtual);
+    }
+  }
+
+  function compartilharDetalhe() {
+    if (!urlDetalheAtual) return;
+    var titulo = "itbidata — registro imobiliário";
+    var texto = "Confira este registro no itbidata.";
+
+    if (navigator.share) {
+      navigator.share({ title: titulo, text: texto, url: urlDetalheAtual }).catch(function () {});
+      return;
+    }
+
+    var menu = document.getElementById("menu-compartilhar");
+    if (menu) menu.classList.toggle("ativo");
+  }
+
   function abrirDetalhe(indice) {
     var r = ultimosRegistros[indice];
     if (!r) return;
@@ -1587,7 +1700,17 @@ white-space: nowrap;
     var cidadeEstado = r.cidadeNome && r.estadoSigla ? r.cidadeNome + " - " + r.estadoSigla : "Brasil";
     var enderecoMapa = r.logradouro ? r.logradouro + (numero ? ", " + numero : "") + ", " + cidadeEstado + ", Brasil" : null;
 
-    var html = '<a class="link-voltar" id="link-voltar">&larr; Voltar à lista</a>';
+    urlDetalheAtual = construirUrlDetalhe(r);
+
+    var html = '<div class="acoes-detalhe">';
+    html += '<a class="link-voltar" id="link-voltar">&larr; Voltar à lista</a>';
+    html += '<button class="botao-compartilhar" id="btn-compartilhar" type="button">&#8599; Compartilhar</button>';
+    html += '</div>';
+    html += '<div class="menu-compartilhar" id="menu-compartilhar">';
+    html += '<button id="btn-whatsapp" type="button">WhatsApp</button>';
+    html += '<button id="btn-email" type="button">E-mail</button>';
+    html += '<button id="btn-copiar-link" type="button">Copiar link</button>';
+    html += '</div>';
     html += '<h2 class="ficha-titulo"></h2>';
     html += '<p class="ficha-subtitulo" id="ficha-bairro"></p>';
 
@@ -1652,6 +1775,10 @@ white-space: nowrap;
     document.getElementById("link-voltar").addEventListener("click", function () {
       fecharDetalhe();
     });
+    document.getElementById("btn-compartilhar").addEventListener("click", compartilharDetalhe);
+    document.getElementById("btn-whatsapp").addEventListener("click", abrirWhatsAppCompartilhar);
+    document.getElementById("btn-email").addEventListener("click", abrirEmailCompartilhar);
+    document.getElementById("btn-copiar-link").addEventListener("click", copiarLinkCompartilhar);
 
     if (r.baseCalculo != null && r.dataReferencia) {
       var btnRecalcular = document.getElementById("btn-recalcular");
@@ -1671,8 +1798,10 @@ white-space: nowrap;
     }
 
     if (!detalheEmpilhadoNoHistorico) {
-      history.pushState({ itbidataDetalhe: true }, "");
+      history.pushState({ itbidataDetalhe: true }, "", urlDetalheAtual);
       detalheEmpilhadoNoHistorico = true;
+    } else {
+      history.replaceState({ itbidataDetalhe: true }, "", urlDetalheAtual);
     }
 
     elResultados.style.display = "none";
@@ -1771,6 +1900,10 @@ white-space: nowrap;
   }
 
   function fecharDetalhe() {
+    if (detalheEmpilhadoNoHistorico) {
+      history.back();
+      return;
+    }
     elDetalhe.hidden = true;
     elDetalhe.style.display = "none";
     elResultados.style.display = "";
@@ -1788,13 +1921,27 @@ white-space: nowrap;
   }
 
   var detalheEmpilhadoNoHistorico = false;
+  var urlDetalheAtual = "";
   window.addEventListener("popstate", function () {
     if (!elDetalhe.hidden) {
-      fecharDetalhe();
+      elDetalhe.hidden = true;
+      elDetalhe.style.display = "none";
+      elResultados.style.display = "";
+      if (ultimosRegistros.length > 0) {
+        elBarraTopoResultados.style.display = "flex";
+        elControlesPaginacao.style.display = "flex";
+      }
+      detalheEmpilhadoNoHistorico = false;
+      urlDetalheAtual = "";
+      setTimeout(function() {
+        var rect = elBarraTopoResultados.getBoundingClientRect();
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        window.scrollTo({ top: rect.top + scrollTop - 16, behavior: "smooth" });
+      }, 30);
     }
   });
 
-  function executarBusca(forcarAtualizacao) {
+  function executarBusca(forcarAtualizacao, abrirDetalheAutomaticamente) {
     var logradouro = elEndereco.value.trim();
     if (!logradouro) {
       elFaixaErro.classList.add("ativa");
@@ -1822,6 +1969,10 @@ white-space: nowrap;
       paginaAtual = 1;
       elContagem.textContent = resultado.registros.length + " registro(s) encontrado(s)";
       renderizarResultados(resultado.registros);
+
+      if (abrirDetalheAutomaticamente && resultado.registros.length > 0) {
+        setTimeout(function () { abrirDetalhe(0); }, 50);
+      }
       
       setTimeout(function() {
         var rect = elBarraTopoResultados.getBoundingClientRect();
@@ -1859,6 +2010,31 @@ white-space: nowrap;
     ultimosRegistros = [];
     fecharDetalhe();
   });
+
+  function carregarDetalheDaUrl() {
+    var params = new URLSearchParams(window.location.search);
+    var cidade = params.get("cidade");
+    var ano = params.get("ano");
+    var logradouro = params.get("logradouro");
+    var numero = params.get("numero") || "";
+    var unidade = params.get("unidade") || "";
+
+    if (!cidade || !logradouro) return;
+    if (!FONTES[cidade]) return;
+
+    elCidade.value = cidade;
+    elEndereco.value = logradouro;
+    elNumero.value = numero;
+    elUnidade.value = unidade;
+    if (ano) elAno.value = ano;
+
+    // Troca a entrada atual pela página de busca limpa. A abertura da ficha
+    // fará um pushState com a URL específica do registro.
+    history.replaceState({ itbidataBusca: true }, "", window.location.pathname);
+    executarBusca(false, true);
+  }
+
+  carregarDetalheDaUrl();
 
   // ===== Banner de cookies =====
   (function () {
