@@ -483,8 +483,7 @@ border-bottom: none;
 .ficha-rotulo { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--texto-card-sutil); }
 .ficha-valor { font-family: var(--fonte-mono); font-size: 0.92rem; color: var(--texto-card); text-align: right; }
 .ficha-secao-titulo { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--texto-card-sutil); margin: 0 0 12px; }
-.ficha-cartoes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; width: 100%; }
-@media (max-width: 700px) { .ficha-cartoes { grid-template-columns: 1fr; } }
+.ficha-cartoes { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; width: 100%; }
 
 .rodape {
 padding: 32px 24px;
@@ -728,7 +727,6 @@ white-space: nowrap;
                 <option value="2020">2020</option>
               </select>
             </div>
-          </div>
 
           <button class="botao botao-primario" id="btn-pesquisar">&#128269; Pesquisar</button>
           <div class="acoes-secundarias">
