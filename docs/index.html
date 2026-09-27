@@ -704,8 +704,14 @@ white-space: nowrap;
               <input type="text" id="numero" placeholder="opcional" inputmode="numeric">
             </div>
             <div class="campo">
-              <label for="ano">Ano</label>
-              <select id="ano">
+              <label for="unidade">Unidade / complemento</label>
+              <input type="text" id="unidade" placeholder="Ex.: 91, Apto 91">
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="ano">Ano</label>
+            <select id="ano">
                 <option value="">Todos</option>
                 <option value="2026" selected>2026</option>
                 <option value="2025">2025</option>
@@ -1316,6 +1322,30 @@ white-space: nowrap;
       (registro.numeroEndereco && registro.numeroEndereco.trim() === numeroBusca);
   }
 
+  function unidadeCoincide(registro, unidadeBusca) {
+    if (!unidadeBusca) return true;
+
+    var busca = normalizarParaBusca(unidadeBusca).replace(/[.,#\-]+/g, " ").replace(/\s+/g, " ").trim();
+    if (!busca) return true;
+
+    var unidade = registro.numeroUnidade ? String(registro.numeroUnidade).trim() : "";
+    if (unidade && normalizarParaBusca(unidade).replace(/[.,#\-]+/g, " ").replace(/\s+/g, " ").trim() === busca) {
+      return true;
+    }
+
+    var complemento = registro.complementoEndereco ? normalizarParaBusca(registro.complementoEndereco).replace(/[.,#\-]+/g, " ").replace(/\s+/g, " ").trim() : "";
+    if (complemento && complemento === busca) return true;
+
+    // Permite pesquisar apenas pelo número da unidade quando a fonte o traz
+    // dentro do complemento, por exemplo: "APTO 91".
+    if (/^\d+$/.test(busca) && complemento) {
+      var m = complemento.match(/\b(?:APTO|APARTAMENTO|UNID|UNIDADE|SALA|LOJA|CASA|BOX)\s*0*(\d+)\b/);
+      if (m && String(parseInt(m[1], 10)) === String(parseInt(busca, 10))) return true;
+    }
+
+    return false;
+  }
+
   // Retorna o grau de correspondência do logradouro:
   // 2 = nome exato; 1 = busca parcial; 0 = não corresponde.
   // O tipo do logradouro (Rua/Av./Avenida etc.) e títulos (Prof./Dr./Pres. etc.)
@@ -1330,9 +1360,10 @@ white-space: nowrap;
     return 0;
   }
 
-  function coincide(registro, logradouroBusca, numeroBusca) {
+  function coincide(registro, logradouroBusca, numeroBusca, unidadeBusca) {
     return grauCorrespondenciaLogradouro(registro, logradouroBusca) > 0 &&
-      numeroCoincide(registro, numeroBusca);
+      numeroCoincide(registro, numeroBusca) &&
+      unidadeCoincide(registro, unidadeBusca);
   }
 
   function ordenarRegistros(lista, criterio) {
@@ -1356,11 +1387,12 @@ white-space: nowrap;
     return copia;
   }
 
-  function buscar(cidadeId, anoUnico, logradouro, numero, forcarAtualizacao, aoProgredir) {
+  function buscar(cidadeId, anoUnico, logradouro, numero, unidade, forcarAtualizacao, aoProgredir) {
     var fonte = FONTES[cidadeId];
     var anos = anoUnico ? [anoUnico] : fonte.anosDisponiveis;
     var logradouroBusca = normalizarLogradouro(logradouro);
     var numeroBusca = numero ? numero.trim() : null;
+    var unidadeBusca = unidade ? unidade.trim() : null;
     var registros = [];
     var anosComErro = [];
     var ultimoErro = null;
@@ -1381,7 +1413,8 @@ white-space: nowrap;
         if (logradouroBusca) {
           var exatos = registros.filter(function (r) {
             return grauCorrespondenciaLogradouro(r, logradouroBusca) === 2 &&
-              numeroCoincide(r, numeroBusca);
+              numeroCoincide(r, numeroBusca) &&
+              unidadeCoincide(r, unidadeBusca);
           });
           if (exatos.length > 0) registros = exatos;
         }
@@ -1395,7 +1428,7 @@ white-space: nowrap;
       if (aoProgredir) aoProgredir(indice, anos.length);
       return baixarCsvDaFonte(fonte, ano, forcarAtualizacao).then(function (texto) {
         var doAno = fonte.processarCsv(texto, ano).filter(function (r) {
-          return coincide(r, logradouroBusca, numeroBusca);
+          return coincide(r, logradouroBusca, numeroBusca, unidadeBusca);
         });
         registros = registros.concat(doAno);
       }).catch(function (erro) {
@@ -1410,6 +1443,7 @@ white-space: nowrap;
   var elCidade = document.getElementById("cidade");
   var elEndereco = document.getElementById("endereco");
   var elNumero = document.getElementById("numero");
+  var elUnidade = document.getElementById("unidade");
   var elAno = document.getElementById("ano");
   var elBtnPesquisar = document.getElementById("btn-pesquisar");
   var elBtnLimpar = document.getElementById("btn-limpar");
@@ -1771,8 +1805,9 @@ white-space: nowrap;
 
     var anoValor = elAno.value ? parseInt(elAno.value, 10) : null;
     var numero = elNumero.value.trim();
+    var unidade = elUnidade.value.trim();
 
-    buscar(elCidade.value, anoValor, logradouro, numero, forcarAtualizacao, function (feito, total) {
+    buscar(elCidade.value, anoValor, logradouro, numero, unidade, forcarAtualizacao, function (feito, total) {
       if (total > 1) {
         elTextoProgresso.style.display = "block";
         elTextoProgresso.textContent = "Consultando dados... " + feito + "/" + total + " anos";
@@ -1801,7 +1836,7 @@ white-space: nowrap;
     });
   }
 
-  [elEndereco, elNumero].forEach(function (el) {
+  [elEndereco, elNumero, elUnidade].forEach(function (el) {
     el.addEventListener("keydown", function (ev) {
       if (ev.key === "Enter") { ev.preventDefault(); executarBusca(false); }
     });
@@ -1812,6 +1847,7 @@ white-space: nowrap;
   elBtnLimpar.addEventListener("click", function () {
     elEndereco.value = "";
     elNumero.value = "";
+    elUnidade.value = "";
     elAno.value = "2026";
     elBarraTopoResultados.style.display = "none";
     elControlesPaginacao.style.display = "none";
