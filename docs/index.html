@@ -185,9 +185,49 @@ width: 100%;
 .grade-resultados { display: flex; flex-direction: column; gap: 12px; width: 100%; }
 
 @media (max-width: 900px) {
-.corpo { flex-direction: column; padding: 16px; gap: 20px; }
+.corpo { flex-direction: column; padding: 16px 14px 24px; gap: 20px; }
 .barra-lateral { width: 100%; position: static; }
+.area-principal { width: 100%; min-width: 0; }
 .cabecalho { height: 220px; }
+}
+
+@media (max-width: 600px) {
+  .barra-marca { padding: 10px 14px; gap: 8px; }
+  .barra-marca img { height: 36px; width: 36px; min-width: 36px; }
+  .barra-marca .nome-marca { font-size: 1rem; }
+  .menu-nav { gap: 4px; }
+  .btn-nav { font-size: 0.68rem; padding: 7px 9px; }
+
+  .cabecalho { height: 220px; }
+  .cabecalho-texto { padding: 24px 18px; }
+  .cabecalho-titulo { font-size: clamp(1.25rem, 5.5vw, 1.65rem); line-height: 1.16; }
+  .cabecalho-subtitulo { font-size: 0.82rem; line-height: 1.35; max-width: 42ch; }
+
+  .corpo { padding: 16px 14px 24px; gap: 18px; }
+  .cartao { padding: 18px 20px 20px; border-radius: 14px; }
+  .campo-linha { gap: 16px; }
+
+  .acoes-detalhe { gap: 8px; margin-bottom: 10px; }
+  .link-voltar { font-size: 0.76rem; margin-bottom: 0; }
+  .ficha-titulo { font-size: 1.3rem; line-height: 1.18; margin-bottom: 2px; overflow-wrap: anywhere; }
+  .ficha-subtitulo {
+    gap: 6px 9px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    min-height: 0;
+    line-height: 1.25;
+  }
+  .ficha-subtitulo .link-streetview { font-size: 0.78rem; }
+  .ficha-subtitulo .botao-compartilhar {
+    padding: 7px 10px;
+    font-size: 0.68rem;
+    margin-left: auto;
+  }
+  .ficha-linha { gap: 12px; padding: 9px 0; }
+  .ficha-rotulo { font-size: 0.68rem; }
+  .ficha-valor { font-size: 0.82rem; max-width: 58%; overflow-wrap: anywhere; }
+  .ficha-linha.destaque-m2 .ficha-valor { font-size: 0.92rem; }
+  .ficha-cartoes { gap: 12px; margin-bottom: 12px; }
 }
 
 /* ===== Cartão de Pesquisa e Resultados unificados na largura ===== */
