@@ -2022,9 +2022,7 @@ white-space: nowrap;
     fecharDetalhe();
     definirCarregando(true);
 
-    // Mostra imediatamente que a busca começou, inclusive quando apenas
-    // um ano será consultado. Sem isso, o botão fica desabilitado e parece
-    // que a página travou até os resultados chegarem.
+    // Mostra imediatamente que a busca começou.
     elTextoProgresso.style.display = "block";
     elTextoProgresso.textContent = "Consultando dados...";
 
@@ -2032,7 +2030,8 @@ white-space: nowrap;
     var numero = elNumero.value.trim();
     var unidade = elUnidade.value.trim();
 
-    buscar(elCidade.value, anoValor, logradouro, numero, unidade, forcarAtualizacao, function (feito, total) {
+    setTimeout(function () {
+      buscar(elCidade.value, anoValor, logradouro, numero, unidade, forcarAtualizacao, function (feito, total) {
       if (total > 1) {
         elTextoProgresso.style.display = "block";
         elTextoProgresso.textContent = "Consultando dados... " + feito + "/" + total + " anos";
@@ -2065,7 +2064,8 @@ white-space: nowrap;
       definirCarregando(false);
       elFaixaErro.classList.add("ativa");
       elTextoErro.textContent = erro.message || "Não foi possível concluir a busca. Tente novamente.";
-    });
+      });
+    }, 50);
   }
 
   [elEndereco, elNumero, elUnidade].forEach(function (el) {
