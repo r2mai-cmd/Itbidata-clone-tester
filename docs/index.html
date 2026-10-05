@@ -733,7 +733,7 @@ white-space: nowrap;
 }
 .bloco-editorial-grade {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 .bloco-editorial-grade > div {
@@ -744,6 +744,7 @@ white-space: nowrap;
   min-height: 0;
 }
 .bloco-editorial-grade > div:last-child {
+  grid-column: 1 / -1;
   border-left: 3px solid var(--agua-turquesa);
 }
 .conteudo-editorial h3 {
@@ -1991,9 +1992,9 @@ white-space: nowrap;
 
   function calcularCorrecoes(valorOriginal, dataInicioObj, percCdi) {
     var hoje = hojeObj();
-    preencherPlaceholder("bloco-cdi", percCdi + "% do CDI", "Calculando...");
-    preencherPlaceholder("bloco-ipca", "IPCA", "Calculando...");
-    preencherPlaceholder("bloco-igpm", "IGP-M", "Calculando...");
+    preencherPlaceholder("bloco-cdi", percCdi + "% do CDI", "Consultando índices...");
+    preencherPlaceholder("bloco-ipca", "IPCA", "Consultando índices...");
+    preencherPlaceholder("bloco-igpm", "IGP-M", "Consultando índices...");
 
     Promise.all([
       buscarSerieBcb(12, dataInicioObj, hoje),
