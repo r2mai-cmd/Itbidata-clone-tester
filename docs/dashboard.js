@@ -123,15 +123,90 @@
     var ctx=document.getElementById("graficoRankingVolume").getContext("2d");graficosInstanciados.graficoRankingVolume=new Chart(ctx,{type:"bar",data:{labels:arr.map(function(x){return x.b;}),datasets:[{label:"Transações",data:arr.map(function(x){return x.v;})}]},options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true}}}});
   }
 
+
+  function formatarDataAtualizacao(valor) {
+    if (valor === null || valor === undefined || valor === "") return null;
+
+    if (typeof valor === "object") {
+      valor = valor.data || valor.date || valor.valor || valor.updated_at || valor.atualizado_em || valor.ultima_atualizacao;
+    }
+
+    if (valor === null || valor === undefined || valor === "") return null;
+
+    var s = String(valor).trim();
+
+    if (/^\d{2}\/\d{2}\/\d{4}$/.test(s)) return s;
+
+    var data = new Date(s);
+    if (isNaN(data.getTime())) return s;
+
+    return data.toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    });
+  }
+
+  function obterDataAtualizacao(origem, cidade) {
+    if (!origem) return null;
+
+    var chaves = [
+      "ultima_atualizacao",
+      "ultimaAtualizacao",
+      "data_atualizacao",
+      "dataAtualizacao",
+      "atualizado_em",
+      "atualizadoEm",
+      "updated_at",
+      "updatedAt",
+      "gerado_em",
+      "geradoEm",
+      "generated_at",
+      "generatedAt"
+    ];
+
+    for (var i = 0; i < chaves.length; i++) {
+      if (origem[chaves[i]] !== undefined) {
+        var encontrada = formatarDataAtualizacao(origem[chaves[i]]);
+        if (encontrada) return encontrada;
+      }
+    }
+
+    if (cidade && origem.cidades && origem.cidades[cidade]) {
+      var daCidade = obterDataAtualizacao(origem.cidades[cidade], null);
+      if (daCidade) return daCidade;
+    }
+
+    if (cidade && origem[cidade] && typeof origem[cidade] === "object") {
+      var direta = obterDataAtualizacao(origem[cidade], null);
+      if (direta) return direta;
+    }
+
+    return null;
+  }
+
+  function atualizarTextoUltimaAtualizacao(cidade, dadosCidade) {
+    var el = document.getElementById("ultima-atualizacao");
+    if (!el) return;
+
+    var data = obterDataAtualizacao(dadosCidade, null) || obterDataAtualizacao(catalog, cidade);
+
+    if (data) {
+      el.innerHTML = "Última atualização da fonte: <strong>" + data + "</strong>";
+    } else {
+      el.textContent = "Última atualização da fonte: informação não disponível";
+    }
+  }
+
   function carregarCidade(key) {
     var url="data/estatisticas-"+key+".json";
-    if(cache[url]) { dadosAtuais=cache[url]; preencherFiltros(); atualizar(); return; }
+    if(cache[url]) { dadosAtuais=cache[url]; preencherFiltros(); atualizar(); atualizarTextoUltimaAtualizacao(key, dadosAtuais); return; }
     document.getElementById("kpi-m2").textContent="Carregando...";
-    fetch(url).then(function(r){if(!r.ok)throw new Error("Arquivo de estatísticas não encontrado");return r.json();}).then(function(d){cache[url]=d;dadosAtuais=d;preencherFiltros();atualizar();}).catch(function(e){console.error(e);document.getElementById("kpi-m2").textContent="Erro";document.getElementById("kpi-ticket").textContent="Erro";document.getElementById("kpi-transacoes").textContent="Erro";});
+    fetch(url).then(function(r){if(!r.ok)throw new Error("Arquivo de estatísticas não encontrado");return r.json();}).then(function(d){cache[url]=d;dadosAtuais=d;preencherFiltros();atualizar();atualizarTextoUltimaAtualizacao(key, dadosAtuais);}).catch(function(e){console.error(e);document.getElementById("kpi-m2").textContent="Erro";document.getElementById("kpi-ticket").textContent="Erro";document.getElementById("kpi-transacoes").textContent="Erro";});
   }
 
   function iniciar() {
-    fetch("estatisticas.json").then(function(r){return r.json();}).then(function(c){catalog=c;carregarCidade(elCidade.value||"porto-alegre");});
+    fetch("estatisticas.json").then(function(r){if(!r.ok)throw new Error("Catálogo de estatísticas não encontrado");return r.json();}).then(function(c){catalog=c;atualizarTextoUltimaAtualizacao(elCidade.value||"porto-alegre", null);carregarCidade(elCidade.value||"porto-alegre");}).catch(function(e){console.error(e);carregarCidade(elCidade.value||"porto-alegre");});
     elCidade.addEventListener("change",function(){carregarCidade(this.value);});
     elBairro.addEventListener("change",atualizar); elAno.addEventListener("change",atualizar); elMes.addEventListener("change",atualizar);
   }
