@@ -733,7 +733,7 @@ white-space: nowrap;
 }
 .bloco-editorial-grade {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 .bloco-editorial-grade > div {
@@ -744,6 +744,7 @@ white-space: nowrap;
   min-height: 0;
 }
 .bloco-editorial-grade > div:last-child {
+  grid-column: 1 / -1;
   border-left: 3px solid var(--agua-turquesa);
 }
 .conteudo-editorial h3 {
@@ -1110,9 +1111,16 @@ white-space: nowrap;
 
   function parseDataPoa(texto) {
     if (!texto) return null;
-    var m = texto.trim().match(/^(\d{4})\/(\d{2})\/(\d{2})/);
-    if (!m) return null;
-    return { y: parseInt(m[1], 10), mo: parseInt(m[2], 10), d: parseInt(m[3], 10) };
+    var t = String(texto).trim();
+    var m = t.match(/^(\d{4})[\/-](\d{2})[\/-](\d{2})/);
+    if (m) {
+      return { y: parseInt(m[1], 10), mo: parseInt(m[2], 10), d: parseInt(m[3], 10) };
+    }
+    m = t.match(/^(\d{2})[\/-](\d{2})[\/-](\d{4})/);
+    if (m) {
+      return { y: parseInt(m[3], 10), mo: parseInt(m[2], 10), d: parseInt(m[1], 10) };
+    }
+    return null;
   }
   function chaveOrdenacao(data) {
     return data ? data.y * 10000 + data.mo * 100 + data.d : -1;
@@ -1121,6 +1129,83 @@ white-space: nowrap;
     if (!data) return null;
     function d2(n) { return n < 10 ? "0" + n : "" + n; }
     return d2(data.d) + "/" + d2(data.mo) + "/" + d2(data.y);
+  }
+
+  // Conversor específico da base de ITBI de São Paulo.
+  // A estrutura paulista é diferente da base de Porto Alegre:
+  // ano, mês, SQL, logradouro, número, complemento, bairro,
+  // referência, CEP, natureza, valor de transação, data de transação,
+  // valor venal, proporção transmitida, valor venal proporcional,
+  // base de cálculo, financiamento, valor financiado, cartório,
+  // matrícula, situação, área do terreno, testada, fração ideal,
+  // área construída, uso IPTU, descrição do uso e ano de construção.
+  function converterRegistroSaoPaulo(campos, anoPedido) {
+    if (campos.length < 28) return null;
+
+    function c(i) {
+      var v = campos[i];
+      if (v === undefined || v === null) return null;
+      v = String(v).trim();
+      return v === "" ? null : v;
+    }
+
+    function num(i) {
+      var v = c(i);
+      if (v === null) return null;
+      // A base paulista normalmente usa ponto decimal. Mantemos também
+      // compatibilidade com eventual valor brasileiro usando vírgula.
+      var texto = v.replace(/R\$\s?/g, "").replace(/\s/g, "");
+      if (texto.indexOf(",") !== -1 && texto.indexOf(".") !== -1) {
+        texto = texto.replace(/\./g, "").replace(",", ".");
+      } else if (texto.indexOf(",") !== -1) {
+        texto = texto.replace(",", ".");
+      }
+      var n = parseFloat(texto);
+      return isNaN(n) ? null : n;
+    }
+
+    var ano = c(0) ? parseInt(c(0), 10) : null;
+    if (ano !== anoPedido) return null;
+
+    var dataTransacao = parseDataPoa(c(11));
+    var proporcao = num(13);
+
+    return {
+      cidadeNome: "São Paulo",
+      estadoSigla: "SP",
+      ano: ano,
+      dataEstimativa: null,
+      dataPagamento: null,
+      dataReferencia: dataTransacao,
+      baseCalculo: num(10),
+      percTransmitido: proporcao,
+      finalidadeConstrucao: c(26),
+      logradouro: c(3),
+      numeroEndereco: c(4),
+      numeroUnidade: null,
+      complementoEndereco: c(5),
+      bairro: c(6),
+      cep: c(8),
+      areaTotalTerreno: num(21),
+      areaConstrTotal: num(24),
+      areaConstrPrivativa: num(24),
+      anoConstrucao: c(27) ? parseInt(c(27), 10) : null,
+      numeroMatricula: c(19),
+      numeroZona: c(2),
+      situacao: c(20),
+      sql: c(2),
+      naturezaTransacao: c(9),
+      valorVenalReferencia: num(12),
+      valorVenalProporcional: num(14),
+      tipoFinanciamento: c(16),
+      valorFinanciado: num(17),
+      cartorioRegistro: c(18),
+      testada: num(22),
+      fracaoIdeal: num(23),
+      usoIptu: c(25),
+      referencia: c(7),
+      mes: c(1) ? parseInt(c(1), 10) : null
+    };
   }
 
   function converterRegistroPoa(campos, ano) {
@@ -1378,12 +1463,8 @@ white-space: nowrap;
           if (!linha.trim()) continue;
           try {
             var campos = parseLinhaCsv(linha);
-            var reg = converterRegistroPoa(campos, ano);
-            if (reg) {
-              reg.cidadeNome = "São Paulo";
-              reg.estadoSigla = "SP";
-              registros.push(reg);
-            }
+            var reg = converterRegistroSaoPaulo(campos, ano);
+            if (reg) registros.push(reg);
           } catch (e) {}
         }
         return registros;
