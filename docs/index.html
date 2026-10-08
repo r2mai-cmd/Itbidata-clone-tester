@@ -1598,8 +1598,12 @@ white-space: nowrap;
     var logradouroRegistro = normalizarLogradouro(registro.logradouro || "");
     if (!logradouroRegistro) return 0;
     if (logradouroRegistro === logradouroBusca) return 2;
-    if (logradouroRegistro.indexOf(logradouroBusca) !== -1 ||
-        logradouroBusca.indexOf(logradouroRegistro) !== -1) return 1;
+    // Busca parcial somente no sentido: o nome pesquisado precisa estar
+    // contido no logradouro do registro. Não usamos o sentido inverso,
+    // pois isso gera falsos positivos com nomes curtos. Ex.: pesquisar
+    // "25 de março" não deve trazer "R do Mar" só porque "MAR"
+    // aparece dentro de "25 MARCO" após a normalização.
+    if (logradouroRegistro.indexOf(logradouroBusca) !== -1) return 1;
     return 0;
   }
 
