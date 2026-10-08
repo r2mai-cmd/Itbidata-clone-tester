@@ -2272,16 +2272,25 @@ white-space: nowrap;
     fecharDetalhe();
     definirCarregando(true);
 
+    // Mostra imediatamente que uma nova busca começou. O pequeno atraso
+    // permite ao navegador pintar a mensagem antes de iniciar a leitura dos CSVs.
+    elTextoProgresso.style.display = "block";
+    elTextoProgresso.textContent = "Consultando dados...";
+
     var anoValor = elAno.value ? parseInt(elAno.value, 10) : null;
     var numero = elNumero.value.trim();
     var unidade = elUnidade.value.trim();
 
-    buscar(elCidade.value, anoValor, logradouro, numero, unidade, forcarAtualizacao, function (feito, total) {
-      if (total > 1) {
-        elTextoProgresso.style.display = "block";
-        elTextoProgresso.textContent = "Consultando dados... " + feito + "/" + total + " anos";
-      }
-    }).then(function (resultado) {
+    setTimeout(function () {
+      buscar(elCidade.value, anoValor, logradouro, numero, unidade, forcarAtualizacao, function (feito, total) {
+        if (total > 1) {
+          elTextoProgresso.style.display = "block";
+          elTextoProgresso.textContent = "Consultando dados... " + feito + "/" + total + " anos";
+        } else {
+          elTextoProgresso.style.display = "block";
+          elTextoProgresso.textContent = "Consultando dados...";
+        }
+      }).then(function (resultado) {
       definirCarregando(false);
       ultimosRegistros = resultado.registros;
       paginaAtual = 1;
@@ -2302,11 +2311,12 @@ white-space: nowrap;
         elFaixaAvisoAnos.classList.add("ativa");
         elTextoAvisoAnos.textContent = "Não foi possível consultar: " + resultado.anosComErro.sort().join(", ");
       }
-    }).catch(function (erro) {
-      definirCarregando(false);
-      elFaixaErro.classList.add("ativa");
-      elTextoErro.textContent = erro.message || "Não foi possível concluir a busca. Tente novamente.";
-    });
+      }).catch(function (erro) {
+        definirCarregando(false);
+        elFaixaErro.classList.add("ativa");
+        elTextoErro.textContent = erro.message || "Não foi possível concluir a busca. Tente novamente.";
+      });
+    }, 50);
   }
 
   [elEndereco, elNumero, elUnidade].forEach(function (el) {
