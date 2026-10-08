@@ -1607,6 +1607,83 @@ white-space: nowrap;
     return 0;
   }
 
+  // Comparação específica para São Paulo. Mantemos palavras como DE/DO/DA
+  // no nome da via, mas usamos os termos relevantes para evitar falsos
+  // positivos. Ex.: "25 de março" deve encontrar "R 25 DE MARÇO",
+  // mas nunca "R DO MAR".
+  function normalizarLogradouroSp(s) {
+    var texto = normalizarParaBusca(s)
+      .replace(/[^A-Z0-9]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    var prefixos = [
+      "AVENIDA", "AV", "RUA", "R", "ALAMEDA", "AL", "TRAVESSA", "TRAV", "TV",
+      "ESTRADA", "EST", "RODOVIA", "ROD", "PRACA", "PCA", "PC", "LARGO", "LG",
+      "PARQUE", "PQ", "BECO", "BC", "VIELA", "VL", "SERVIDAO", "SER",
+      "PROFESSOR", "PROF", "DOUTOR", "DR", "PRESIDENTE", "PRES", "GOVERNADOR", "GOV",
+      "SENADOR", "SEN", "DESEMBARGADOR", "DES", "CORONEL", "CEL", "MARECHAL", "MAL",
+      "GENERAL", "GEN", "ALMIRANTE", "ALM", "PADRE", "PE", "FREI", "FR"
+    ];
+
+    var alterou = true;
+    while (alterou && texto) {
+      alterou = false;
+      for (var i = 0; i < prefixos.length; i++) {
+        var re = new RegExp("^" + prefixos[i] + "(?:\\s+|$)");
+        if (re.test(texto)) {
+          texto = texto.replace(re, "").trim();
+          alterou = true;
+          break;
+        }
+      }
+    }
+    return texto;
+  }
+
+  function tokensRelevantesSp(texto) {
+    return normalizarLogradouroSp(texto)
+      .split(/\s+/)
+      .filter(function (t) {
+        return t && t !== "DE" && t !== "DA" && t !== "DO" && t !== "DAS" && t !== "DOS" && t !== "E";
+      });
+  }
+
+  function grauCorrespondenciaLogradouroSp(registro, logradouroBusca) {
+    var nomeRegistro = normalizarLogradouroSp(registro.logradouro || "");
+    var nomeBusca = normalizarLogradouroSp(logradouroBusca || "");
+    if (!nomeRegistro || !nomeBusca) return 0;
+    if (nomeRegistro === nomeBusca) return 2;
+
+    var busca = tokensRelevantesSp(nomeBusca);
+    var registro = tokensRelevantesSp(nomeRegistro);
+    if (!busca.length || !registro.length) return 0;
+
+    // Cada termo relevante pesquisado precisa aparecer no logradouro do
+    // registro, na mesma ordem. Aceitamos prefixo do último termo para
+    // permitir buscas parciais como "25 mar" -> "25 MARÇO".
+    var pos = 0;
+    for (var i = 0; i < busca.length; i++) {
+      var termo = busca[i];
+      var encontrado = false;
+      for (; pos < registro.length; pos++) {
+        if (registro[pos] === termo || registro[pos].indexOf(termo) === 0) {
+          encontrado = true;
+          pos++;
+          break;
+        }
+      }
+      if (!encontrado) return 0;
+    }
+    return 1;
+  }
+
+  function coincideSaoPaulo(registro, logradouroBusca, numeroBusca, unidadeBusca) {
+    return grauCorrespondenciaLogradouroSp(registro, logradouroBusca) > 0 &&
+      numeroCoincide(registro, numeroBusca) &&
+      unidadeCoincide(registro, unidadeBusca);
+  }
+
   function coincide(registro, logradouroBusca, numeroBusca, unidadeBusca) {
     return grauCorrespondenciaLogradouro(registro, logradouroBusca) > 0 &&
       numeroCoincide(registro, numeroBusca) &&
@@ -1674,8 +1751,9 @@ white-space: nowrap;
       indice++;
       if (aoProgredir) aoProgredir(indice, anos.length);
       return baixarCsvDaFonte(fonte, ano, forcarAtualizacao).then(function (texto) {
+        var funcaoCoincidencia = cidadeId === "sao-paulo" ? coincideSaoPaulo : coincide;
         var doAno = fonte.processarCsv(texto, ano).filter(function (r) {
-          return coincide(r, logradouroBusca, numeroBusca, unidadeBusca);
+          return funcaoCoincidencia(r, logradouroBusca, numeroBusca, unidadeBusca);
         });
         registros = registros.concat(doAno);
       }).catch(function (erro) {
