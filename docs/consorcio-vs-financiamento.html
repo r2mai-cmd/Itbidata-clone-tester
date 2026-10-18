@@ -498,6 +498,20 @@
     var inccAnual = lerNumero("input-incc") / 100;
     var jurosAnual = Math.max(0, lerNumero("input-juros-fin") / 100);
 
+    // Evita comparar cenários com entradas inválidas ou fora da escala do crédito.
+    var campoCreditoValidacao = document.getElementById("input-credito");
+    var campoEntradaValidacao = document.getElementById("input-entrada");
+    var campoLanceValidacao = document.getElementById("input-lance");
+    campoCreditoValidacao.setCustomValidity(credito <= 0 ? "Informe um valor de crédito maior que zero." : "");
+    campoEntradaValidacao.setCustomValidity(entrada < 0 || entrada > credito ? "A entrada deve estar entre R$ 0,00 e o valor do crédito." : "");
+    campoLanceValidacao.setCustomValidity(lance < 0 || lance > credito ? "O lance deve estar entre R$ 0,00 e o valor do crédito." : "");
+    if (credito <= 0 || entrada < 0 || entrada > credito || lance < 0 || lance > credito ||
+        !Number.isFinite(prazoMesesInformado) || prazoMesesInformado < 1 || prazoMesesInformado > 600 ||
+        !Number.isFinite(prazoAnosInformado) || prazoAnosInformado <= 0 || prazoAnosInformado > 50) {
+      document.getElementById("res-diferenca").textContent = "Revise os campos destacados antes de comparar.";
+      return;
+    }
+
     // O prazo usado nos dois cenários é o número de meses informado/sincronizado.
 
     // --- CÁLCULO CONSÓRCIO ---
@@ -584,17 +598,19 @@
 
   document.getElementById("btn-calcular").addEventListener("click", calcular);
   document.getElementById("btn-limpar").addEventListener("click", function() {
-    document.getElementById("input-credito").value = "";
-    document.getElementById("input-entrada").value = "";
-    document.getElementById("input-lance").value = "";
-    document.getElementById("input-lance-percentual").value = "";
+    document.getElementById("input-credito").value = "400.000,00";
+    document.getElementById("input-entrada").value = "80.000,00";
+    document.getElementById("input-lance").value = "250.000,00";
+    document.getElementById("input-lance-percentual").value = "62,50";
     document.getElementById("input-prazo").value = "30";
     document.getElementById("input-prazo-meses").value = "360";
     document.getElementById("input-taxa-adm").value = "25,0";
     document.getElementById("input-incc").value = "7,0";
-    amortizacaoLance = "parcela";
-    document.querySelectorAll("#grupo-amortizacao-lance .btn-seletor").forEach(function(b) { b.classList.toggle("ativo", b.getAttribute("data-lance-amort") === "parcela"); });
     document.getElementById("input-juros-fin").value = "10,5";
+    amortizacaoLance = "parcela";
+    amortizacaoFin = "PRICE";
+    document.querySelectorAll("#grupo-amortizacao-lance .btn-seletor").forEach(function(b) { b.classList.toggle("ativo", b.getAttribute("data-lance-amort") === "parcela"); });
+    document.querySelectorAll("#grupo-amortizacao .btn-seletor").forEach(function(b) { b.classList.toggle("ativo", b.getAttribute("data-amort") === "PRICE"); });
 
     document.getElementById("res-custo-consorcio").textContent = "R$ 0,00";
     document.getElementById("res-parc-consorcio").textContent = "Parcela mensal inicial: R$ 0,00";
