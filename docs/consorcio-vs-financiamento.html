@@ -214,6 +214,13 @@
 <input id="input-prazo-consorcio-meses" type="number" inputmode="numeric" min="1" max="216" step="1" value="180" aria-describedby="aviso-prazo-consorcio"/>
 <p id="aviso-prazo-consorcio" class="texto-apoio-prazo">Use de 1 a 216 meses (até 18 anos) nesta simulação genérica. Os prazos disponíveis variam conforme a administradora e o grupo.</p>
 </div>
+<div class="campo" style="margin-top:-6px;">
+<label style="display:flex;align-items:flex-start;gap:8px;letter-spacing:0;text-transform:none;font-size:.82rem;font-weight:700;">
+<input id="input-mesmo-prazo-entrada" type="checkbox" style="margin-top:2px;accent-color:var(--laranja);width:16px;height:16px;flex-shrink:0;"/>
+<span>Usar o mesmo prazo e entrada para o consórcio e financiamento</span>
+</label>
+<p class="texto-apoio-prazo">Quando marcado, o prazo será sincronizado nas duas modalidades e o valor da entrada será igualado ao lance do consórcio.</p>
+</div>
 <div class="secao-titulo">2. Critérios do Consórcio</div>
 <div class="campo">
 <label for="input-taxa-adm">Taxa Adm. Total (%)</label>
@@ -396,6 +403,8 @@
   var campoCredito = document.getElementById("input-credito");
   var campoLance = document.getElementById("input-lance");
   var campoLancePercentual = document.getElementById("input-lance-percentual");
+  var campoEntrada = document.getElementById("input-entrada");
+  var campoMesmoPrazoEntrada = document.getElementById("input-mesmo-prazo-entrada");
 
   function lerPercentualBR(valor) {
     if (!valor || !valor.trim()) return 0;
@@ -420,7 +429,20 @@
     campoLance.value = (credito * percentual / 100).toLocaleString("pt-BR", {minimumFractionDigits: 2, maximumFractionDigits: 2});
   }
 
-  campoLance.addEventListener("input", atualizarPercentualDoLance);
+  campoLance.addEventListener("input", function() {
+    atualizarPercentualDoLance();
+    if (campoMesmoPrazoEntrada.checked) {
+      campoEntrada.value = campoLance.value;
+      calcular();
+    }
+  });
+  campoEntrada.addEventListener("input", function() {
+    if (campoMesmoPrazoEntrada.checked) {
+      campoLance.value = campoEntrada.value;
+      atualizarPercentualDoLance();
+      calcular();
+    }
+  });
   campoLancePercentual.addEventListener("input", function() {
     atualizarValorDoLance();
     calcular();
@@ -447,8 +469,37 @@
   var campoPrazoAnos = document.getElementById("input-prazo");
   var campoPrazoMeses = document.getElementById("input-prazo-meses");
   var campoPrazoConsorcio = document.getElementById("input-prazo-consorcio-meses");
-  campoPrazoConsorcio.addEventListener("input", calcular);
-  campoPrazoConsorcio.addEventListener("change", calcular);
+  var sincronizandoCampos = false;
+  function sincronizarPrazo(origem) {
+    if (!campoMesmoPrazoEntrada.checked || sincronizandoCampos) return;
+    sincronizandoCampos = true;
+    if (origem === "consorcio") {
+      var mesesC = parseInt(campoPrazoConsorcio.value, 10);
+      if (Number.isFinite(mesesC) && mesesC >= 1 && mesesC <= 216) {
+        campoPrazoMeses.value = String(mesesC);
+        campoPrazoAnos.value = (mesesC / 12).toFixed(2);
+      }
+    } else {
+      var mesesF = parseInt(campoPrazoMeses.value, 10);
+      if (Number.isFinite(mesesF) && mesesF >= 1 && mesesF <= 600) {
+        var mesesSincronizados = Math.min(216, mesesF);
+        campoPrazoConsorcio.value = String(mesesSincronizados);
+        if (mesesF > 216) campoPrazoMeses.value = String(mesesSincronizados);
+        campoPrazoAnos.value = (parseInt(campoPrazoMeses.value, 10) / 12).toFixed(2);
+      }
+    }
+    sincronizandoCampos = false;
+  }
+  campoPrazoConsorcio.addEventListener("input", function() { sincronizarPrazo("consorcio"); calcular(); });
+  campoPrazoConsorcio.addEventListener("change", function() { sincronizarPrazo("consorcio"); calcular(); });
+  campoMesmoPrazoEntrada.addEventListener("change", function() {
+    if (this.checked) {
+      sincronizarPrazo("financiamento");
+      campoLance.value = campoEntrada.value;
+      atualizarPercentualDoLance();
+      calcular();
+    }
+  });
   campoPrazoAnos.addEventListener("input", function() {
     var anosDigitados = parseFloat(this.value);
     if (this.value !== "" && Number.isFinite(anosDigitados) && anosDigitados > 0) {
