@@ -445,6 +445,9 @@
   });
   campoLancePercentual.addEventListener("input", function() {
     atualizarValorDoLance();
+    if (campoMesmoPrazoEntrada.checked) {
+      campoEntrada.value = campoLance.value;
+    }
     calcular();
   });
   campoLancePercentual.addEventListener("blur", function() {
