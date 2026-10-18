@@ -495,7 +495,8 @@
   campoMesmoPrazoEntrada.addEventListener("change", function() {
     if (this.checked) {
       sincronizarPrazo("financiamento");
-      campoLance.value = campoEntrada.value;
+      // Ao ativar a opção, o lance informado no consórcio define a entrada do financiamento.
+      campoEntrada.value = campoLance.value;
       atualizarPercentualDoLance();
       calcular();
     }
