@@ -1,2 +1,4 @@
 User-agent: *
-Allow: /
+Disallow: /
+
+# Clone de homologação: não indexar nem usar como site oficial.
