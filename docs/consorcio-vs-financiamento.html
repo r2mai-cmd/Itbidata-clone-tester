@@ -456,6 +456,7 @@
     } else if (this.value === "") {
       campoPrazoMeses.value = "";
     }
+    sincronizarPrazo("financiamento");
     calcular();
   });
   campoPrazoMeses.addEventListener("input", function() {
@@ -465,6 +466,7 @@
     } else if (this.value === "") {
       campoPrazoAnos.value = "";
     }
+    sincronizarPrazo("financiamento");
     calcular();
   });
   [campoPrazoAnos, campoPrazoMeses].forEach(function(el) {
@@ -613,6 +615,7 @@
     document.getElementById("input-lance").value = "250.000,00";
     document.getElementById("input-lance-percentual").value = "62,50";
     document.getElementById("input-prazo-consorcio-meses").value = "180";
+    document.getElementById("input-mesmo-prazo-entrada").checked = false;
     document.getElementById("input-prazo").value = "30";
     document.getElementById("input-prazo-meses").value = "360";
     document.getElementById("input-taxa-adm").value = "25,0";
