@@ -768,6 +768,53 @@ white-space: nowrap;
   .conteudo-editorial h3 { font-size: .92rem; }
   .conteudo-editorial p { font-size: .82rem; }
 }
+
+/* ===== Ajuste mobile: usar toda a largura disponível ===== */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+@media (max-width: 600px) {
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+  .pagina {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+  .barra-marca {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .link-marca { min-width: 0; gap: 8px; }
+  .menu-nav { min-width: 0; gap: 4px; }
+  .btn-nav { padding: 7px 9px; font-size: .72rem; }
+  .cabecalho { width: 100%; max-width: 100%; }
+  .corpo {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+    gap: 14px;
+  }
+  .barra-lateral, .area-principal, .grade-resultados,
+  .cartao, .barra-topo-resultados, .resultado, .ficha-cartoes {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .cartao { padding: 20px 18px 22px; }
+  .resultado { padding: 18px 16px; gap: 8px; }
+  .resultado-info { min-width: 0; overflow-wrap: anywhere; }
+  .resultado-valores { min-width: 0; }
+  .resultado-preco { font-size: .9rem; }
+}
+
 </style>
 </head>
 <body>
