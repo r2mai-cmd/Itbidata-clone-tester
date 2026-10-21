@@ -1012,11 +1012,9 @@ white-space: nowrap;
 
   <div id="cookie-banner" class="banner-cookies">
     <p>
-      Utilizamos cookies e tecnologias semelhantes para analisar o tráfego do site e melhorar sua experiência.
-      Ao continuar navegando, você concorda com a nossa
-      <a href="privacidade.html">Política de Privacidade</a>.
+      Este site pode usar cookies e tecnologias semelhantes para análise de audiência e publicidade. Fechar este aviso não altera as configurações de cookies de análise ou publicidade. Consulte a <a href="privacidade.html">Política de Privacidade</a> para mais informações.
     </p>
-    <button id="btn-aceitar-cookies" type="button">Concordar e fechar</button>
+    <button id="btn-aceitar-cookies" type="button">Fechar aviso</button>
   </div>
 
 <script>
@@ -2374,15 +2372,14 @@ white-space: nowrap;
   (function () {
     var banner = document.getElementById("cookie-banner");
     var btn = document.getElementById("btn-aceitar-cookies");
+    var chaveAviso = "itbidata_aviso_fechado_v1";
     try {
-      if (localStorage.getItem("cookies_aceitos") === "sim") {
-        banner.style.display = "none";
-      }
+      if (localStorage.getItem(chaveAviso) === "true" && banner) banner.style.display = "none";
     } catch (e) { /* localStorage indisponível */ }
 
-    btn.addEventListener("click", function () {
-      banner.style.display = "none";
-      try { localStorage.setItem("cookies_aceitos", "sim"); } catch (e) { /* ignora */ }
+    if (btn) btn.addEventListener("click", function () {
+      if (banner) banner.style.display = "none";
+      try { localStorage.setItem(chaveAviso, "true"); } catch (e) { /* ignora */ }
     });
   })();
 })();
