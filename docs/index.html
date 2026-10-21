@@ -2279,9 +2279,6 @@ white-space: nowrap;
       definirCarregando(false);
       ultimosRegistros = resultado.registros;
       paginaAtual = 1;
-      // Cada nova pesquisa reinicia a quantidade por página para 10 e sincroniza o seletor visual.
-      tamanhoPagina = 10;
-      elSelectTamanhoPagina.value = "10";
       elContagem.textContent = resultado.registros.length + " registro(s) encontrado(s)";
       renderizarResultados(resultado.registros);
 
