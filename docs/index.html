@@ -1039,7 +1039,10 @@ white-space: nowrap;
         i++;
         while (i < n) {
           if (linha.charAt(i) === "'") {
-            if (i + 1 < n && linha.charAt(i + 1) === "'") {
+            // Aspas duplicadas dentro de um campo representam apóstrofo,
+            // exceto quando a segunda aspa fecha um campo vazio ('').
+            if (i + 1 < n && linha.charAt(i + 1) === "'" &&
+                i + 2 < n && linha.charAt(i + 2) !== ";") {
               sb += "'";
               i += 2;
             } else {
