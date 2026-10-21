@@ -239,7 +239,7 @@
   }
 
   function carregarCidade(key) {
-    var url="data/estatisticas-"+key+".json";
+    var url="data/estatisticas-"+key+".json?v=20261021-2";
     if(cache[url]) { dadosAtuais=cache[url]; atualizarTextoUltimaAtualizacao(key, dadosAtuais); preencherFiltros(); atualizar(); return; }
     document.getElementById("kpi-m2").textContent="Carregando...";
     fetch(url).then(function(r){if(!r.ok)throw new Error("Arquivo de estatísticas não encontrado");return r.json();}).then(function(d){cache[url]=d;dadosAtuais=d;atualizarTextoUltimaAtualizacao(key, dadosAtuais);preencherFiltros();atualizar();}).catch(function(e){console.error(e);document.getElementById("kpi-m2").textContent="Erro";document.getElementById("kpi-ticket").textContent="Erro";document.getElementById("kpi-transacoes").textContent="Erro";});
