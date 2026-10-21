@@ -1080,37 +1080,10 @@ white-space: nowrap;
   // PROFESSOR, DR., DOUTOR, PRES., PRESIDENTE etc.
   // Exemplos: "Av. Prof. Oscar" = "Avenida Professor Oscar".
   function normalizarLogradouro(s) {
-    var texto = normalizarParaBusca(s)
-      .replace(/[^A-Z0-9]+/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-
-    // Removemos uma cadeia de prefixos no início. Isso cobre combinações
-    // como "AV PROF OSCAR", "AVENIDA PROFESSOR OSCAR",
-    // "AV DR PROF OSCAR" e equivalentes.
-    var prefixos = [
-      "AVENIDA", "AV", "RUA", "R", "ALAMEDA", "AL", "TRAVESSA", "TRAV", "TV",
-      "ESTRADA", "EST", "RODOVIA", "ROD", "PRACA", "PCA", "PC", "LARGO", "LG",
-      "PARQUE", "PQ", "BECO", "BC", "VIELA", "VL", "SERVIDAO", "SER",
-      "PROFESSOR", "PROF", "DOUTOR", "DR", "PRESIDENTE", "PRES", "GOVERNADOR", "GOV",
-      "SENADOR", "SEN", "DESEMBARGADOR", "DES", "CORONEL", "CEL", "MARECHAL", "MAL",
-      "GENERAL", "GEN", "ALMIRANTE", "ALM", "PADRE", "PE", "FREI", "FR"
-    ];
-
-    var alterou = true;
-    while (alterou && texto) {
-      alterou = false;
-      for (var i = 0; i < prefixos.length; i++) {
-        var re = new RegExp("^" + prefixos[i] + "(?:\\s+|$)");
-        if (re.test(texto)) {
-          texto = texto.replace(re, "").trim();
-          alterou = true;
-          break;
-        }
-      }
-    }
-
-    return texto
+    // Mantém termos como PRESIDENTE, GOVERNADOR e SENADOR quando fazem
+    // parte do nome oficial da via. O site real não remove esses termos.
+    // Assim, uma busca por "presidente" encontra "Rua Presidente ...".
+    return normalizarParaBusca(s)
       .replace(/\b(DE|DA|DO|DAS|DOS|E)\b/g, " ")
       .replace(/\s+/g, " ")
       .trim();
